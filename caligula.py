@@ -236,11 +236,23 @@ def get_ical(param_lst):
 
 	return make_cal_event(parser.result)
 
-def get_user_config(eleve = 'oui', annee = 2 , groupe = 1,td = 1,tp = 1):
+def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1', annee = 2 , groupe = 1,td = 1,tp = 1,):
 	# TODO : Gerer les alternants et les profs
+
+	if user[1].lower() == 'g' and len(user) == 9 and user_type == 'stagiaires': #1A 2A
+		annee = int(user[0])
+		groupe = int(user[2])
+		td = int(user[5])
+		tp = int(user[8])
+	if user_type == 'mastere' and len(user) :
+		if user[0:2].lower() == 'sic' 
+			td  = 'sic'
+			tp = int(user_type[5])
+
+
 	user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
 	param = ['trainee',60,80,20]	
-	if eleve == 'oui':
+	if user_type == 'stagiaires':
 		param[0] = 'trainee'
 		if annee == 1 :
 			if groupe == 1:
@@ -362,7 +374,9 @@ def get_user_config(eleve = 'oui', annee = 2 , groupe = 1,td = 1,tp = 1):
 					if tp == 5:
 						param[3] = 391
 					elif tp == 6:
-						param[3] = 398					
+						param[3] = 398	
+		elif user_type == 'masteres':
+
 		# elif annee == '3D' :
 		# 	param[1] = 62
 		# elif annee == '3A' :
