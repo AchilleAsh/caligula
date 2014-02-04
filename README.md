@@ -12,14 +12,20 @@ exemple : `caligula.py -g 2G1TD1TP1`
 Les fichiers iCal (extension .ics) correspondent à la norme des calendriers. Vous pouvez soit :
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
-Les fichiers iCal des cours sont disponibles sur [showok.info/caligula/ics]. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 2G1TD1TP1 le fichier d'emploi du temps sera [showok.info/caligula/ics/2G1TD1TP1.ics]
+
+Les fichiers iCal des cours sont disponibles sur (showok.info/caligula/ics). Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 2G1TD1TP1 le fichier d'emploi du temps sera (showok.info/caligula/ics/2G1TD1TP1.ics)
+
 ### Avec Sunbird (intégré dans Thunderbird)
+
 Agenda > Nouvel agenda > Sur le réseau > format iCalendar
 
 ### Avec Google Calendar
 
-### Avec 
+TODO
 
+### Avec iCal
+
+TODO
 
 ##TODO
 
