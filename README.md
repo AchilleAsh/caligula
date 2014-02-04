@@ -1,5 +1,22 @@
 Ce script permet de récupérer l'emploi du temps de l'école au format standard iCal
 
+Usage
+=======
+
+caligula.py -g <groupe de TD TP> '
+exemple : caligula.py -g 2G1TD1TP1'
+
+Exploitation des fichiers iCal
+==============================
+Les fichiers iCal (extension .ics) correspond à la norme des calendriers. Ils peuvent donc être importés sur la pluspart des logiciels d'agenda.
+
+
+TODO
+======
+* gestion des alternants et 3A
+* gestion des profs
+
+
 Dépendances
 =============
 * Requests

@@ -133,6 +133,6 @@ def get_user_config(eleve = 'oui', annee = 2 , groupe = 1,td = 1,tp = 1):
 		# 	param[1] = 62
 		# elif annee == '3A' :
 		# 	param[1] = 62	
-		else :
-			print 'Cette combinaison est invalde'
+		# else :
+		# 	print 'Cette combinaison est invalde'
 		return user,param

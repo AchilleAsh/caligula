@@ -12,9 +12,10 @@ from datetime import datetime, timedelta
 import logging
 from HTMLParser import HTMLParser
 import urllib2
+import getopt
 import requests
 from icalendar import Calendar, Event
-import caligula_config
+# import caligula_config
 
 
 class infoParser(HTMLParser):
@@ -218,13 +219,146 @@ def get_ical(param_lst):
 
 	return make_cal_event(parser.result)
 
+def get_user_config(eleve = 'oui', annee = 2 , groupe = 1,td = 1,tp = 1):
+	# TODO : Gerer les alternants et les profs
+	user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
+	param = ['trainee',60,80,20]	
+	if eleve == 'oui':
+		param[0] = 'trainee'
+		if annee == 1 :
+			if groupe == 1:
+				param[1] = 62
+				if td == 1:
+					param[2] = 72
+					if tp == 1:
+						param[3] = 2
+					elif tp == 2:
+						param[3] = 3
+				elif td == 2:
+					param[2] = 73
+					if tp == 3:
+						param[3] = 4
+					elif tp == 4:
+						param[3] = 5		
+				elif td == 3:
+					param[2] = 74
+					if tp == 5:
+						param[3] = 6
+					elif tp == 6:
+						param[3] = 7
+			elif groupe == 2:
+				param[1] = 62
+				if td == 1:
+					param[2] = 75
+					if tp == 1:
+						param[3] = 8
+					elif tp == 2:
+						param[3] = 9
+				elif td == 2:
+					param[2] = 76
+					if tp == 3:
+						param[3] = 10
+					elif tp == 4:
+						param[3] = 12		
+				elif td == 3:
+					param[2] = 383
+					if tp == 5:
+						param[3] = 384
+					elif tp == 6:
+						param[3] = 142			
+			elif groupe == 3:
+				param[1] = 63
+				if td == 1:
+					param[2] = 77
+					if tp == 1:
+						param[3] = 14
+					elif tp == 2:
+						param[3] = 15
+				elif td == 2:
+					param[2] = 78
+					if tp == 3:
+						param[3] = 16
+					elif tp == 4:
+						param[3] = 17		
+				elif td == 3:
+					param[2] = 79
+					if tp == 5:
+						param[3] = 18
+					elif tp == 6:
+						param[3] = 441	
+
+		elif annee == 2:
+			param[1] = 64
+			if groupe == 1:
+				if td == 1:
+					param[2] = 80
+					if tp == 1:
+						param[3] = 20
+					elif tp == 2:
+						param[3] = 21
+				elif td == 2:
+					param[2] = 81
+					if tp == 3:
+						param[3] = 22
+					elif tp == 4:
+						param[3] = 23		
+				elif td == 3:
+					param[2] = 386
+					if tp == 5:
+						param[3] = 388
+					elif tp == 6:
+						param[3] = 267
+			elif groupe == 2:
+				if td == 1:
+					param[2] = 82
+					if tp == 1:
+						param[3] = 24
+					elif tp == 2:
+						param[3] = 25
+				elif td == 2:
+					param[2] = 83
+					if tp == 3:
+						param[3] = 26
+					elif tp == 4:
+						param[3] = 27		
+				elif td == 3:
+					param[2] = 496
+					if tp == 5:
+						param[3] = 497
+					elif tp == 6:
+						param[3] = 498		
+			elif groupe == 3:
+				if td == 1:
+					param[2] = 85
+					if tp == 1:
+						param[3] = 29
+					elif tp == 2:
+						param[3] = 30
+				elif td == 2:
+					param[2] = 86
+					if tp == 3:
+						param[3] = 31
+					elif tp == 4:
+						param[3] = 32		
+				elif td == 3:
+					param[2] = 389
+					if tp == 5:
+						param[3] = 391
+					elif tp == 6:
+						param[3] = 398					
+		# elif annee == '3D' :
+		# 	param[1] = 62
+		# elif annee == '3A' :
+		# 	param[1] = 62	
+		# else :
+		# 	print 'Cette combinaison est invalde'
+		return user,param
 
 
-
-def fetch_ics(annee = 2 , groupe = 1,td = 1,tp = 1,path_destination = 'ics/'):
-	if not os.path.exists(path_destination):
+def fetch_ics(annee = 2 , groupe = 1,td = 1,tp = 1,path_destination = ' '):
+	if not os.path.exists(path_destination) and len(path_destination) > 2:
 		os.mkdir(path_destination[:-1])
-	user,param = caligula_config.get_user_config(eleve='oui',groupe=groupe,annee=annee,td=td,tp=tp)
+	user,param = get_user_config(eleve='oui',groupe=groupe,annee=annee,td=td,tp=tp)
 	events = get_ical(param)
 	with open(path_destination+user+'.ics','w') as f:
 		f.write(str(events))
@@ -242,9 +376,38 @@ def fetch_all_ical(path_destination = 'ics/'):
 					fetch_ics(groupe=groupe,annee=annee,td=td,tp=tp+i,path_destination=path_destination)
 
 
-def main():
-	fetch_all_ical()
+def usage():
+	print 'usage : caligula.py -g <groupe de TD TP>'
+	print 'exemple : caligula.py -g 2G1TD1TP1'
+	print 'le groupe all va télécharger tous les emplois du temps'
+	print 'exemple : caligula.py -g all'
+
+def main(argv):
+	groupe = ''
+	if len(argv) < 1 :
+		usage()
+	try:
+		opts, args = getopt.getopt(argv,"hg:",["groupe="])
+	except getopt.GetoptError,err:
+		print str(err)
+		usage()
+		sys.exit(2)
+	for opt, arg in opts:
+		if opt in ('-h','--help'): usage()
+		elif opt in ("-g", "--groupe"): groupe = arg
+
+
+	if len(groupe) != 9  and groupe != 'all':
+		print "Le choix '%s' est incorrect" %(groupe)
+		usage()
+
+	if groupe == 'all' :
+		fetch_all_ical()
+	else :
+		fetch_ics(annee=groupe[0],groupe=groupe[2],td=groupe[5],tp=groupe[8])
+
+
 
 
 if __name__ == "__main__":
-    main()
+	main(sys.argv[1:])
