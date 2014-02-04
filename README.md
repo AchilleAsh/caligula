@@ -1,11 +1,11 @@
-Ce script permet de récupérer l'emploi du temps de [http://caligula.ensea.fr](l'école) au format standard iCal
+Ce script permet de récupérer l'emploi du temps de [l'école](http://caligula.ensea.fr) au format standard iCal
 
 ##Usage
 
 
-```caligula.py -g <groupe de TD TP> '
+`caligula.py -g <groupe de TD TP> `
 
-exemple : caligula.py -g 2G1TD1TP1'```
+exemple : `caligula.py -g 2G1TD1TP1`
 
 ##Exploitation des fichiers iCal
 
