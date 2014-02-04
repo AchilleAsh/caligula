@@ -9,13 +9,15 @@ exemple : `caligula.py -g 2G1TD1TP1`
 
 ##Exploitation des fichiers iCal
 
-Les fichiers iCal (extension .ics) correspond à la norme des calendriers. Ils peuvent donc être importés sur la pluspart des logiciels d'agenda.
+Les fichiers iCal (extension .ics) correspondent à la norme des calendriers. Ils peuvent donc être importés sur la plupart des logiciels d'agenda.
 
 
 ##TODO
 
+* Ajouter une VTIMEZONE 
 * gestion des alternants et 3A
 * gestion des profs
+* Ajouter une interface web
 
 
 ##Dépendances
