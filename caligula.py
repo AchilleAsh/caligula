@@ -2,20 +2,19 @@
 # -*-coding:Utf-8 -*
 import os
 import sys 
-import requests
 import random
-import threading
-import Queue
 import time
 import re
 import unicodedata
-from icalendar import Calendar, Event
 from HTMLParser import HTMLParser
 import string
 from datetime import datetime, timedelta
 import logging
 from HTMLParser import HTMLParser
 import urllib2
+import requests
+from icalendar import Calendar, Event
+import caligula_config
 
 
 class infoParser(HTMLParser):
@@ -139,7 +138,6 @@ def make_cal_event(parsed):
 
 
 
-
 ## Parser to get the number of the current week
 class weekParser(HTMLParser):
 	def __init__(self):
@@ -163,17 +161,10 @@ class weekParser(HTMLParser):
 def get_ical(param_lst):
 
 	URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=4&login=ensea&password=ensea'
-	URL2 = 'http://caligula.ensea.fr/ade/standard/gui/menu.jsp?on=Planning&sub=Afficher&href=/custom/modules/plannings/plannings.jsp&target=visu&tree=true'
 	tree = "http://caligula.ensea.fr/ade/standard/gui/tree.jsp"
 	s = requests.Session()
 	s.get(URL1)
 	nbw = 38
-	# r = s.get(URL2)
-
-
-	# f = open("file.html",'w') 
-	# f.write(r.content) 
-
 
 	category = "category=%s" % param_lst[0]
 	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
@@ -183,31 +174,27 @@ def get_ical(param_lst):
 	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
 	r = s.get(url)
 
-
 	branch = "branchId=%i" % param_lst[2]
 	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
 	r = s.get(url)
-
 
 	selectId = "selectId=%i" % param_lst[3]
 	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, selectId)
 	r = s.get(url)
 
-
 	# Get the time bar
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/pianoWeeks.jsp"
 	result = s.get(url)
-
 
 	parser = weekParser()
 	parser.feed(result.content)
 	parser.close()
 	nweek = parser.nweek - 1
-	# print nweek
+
 	# Set the weeks
 	bounds = "http://caligula.ensea.fr/ade/custom/modules/plannings/bounds.jsp"
 
-	## Obtain next 8 weeks of the calendar
+	## Obtain next x weeks of the calendar
 	week = "week=%i" % nweek
 	url = "%s?%s&reset=true" % (bounds, week)
 	result = s.get(url)
@@ -219,176 +206,45 @@ def get_ical(param_lst):
 		result = s.get(url)
 	 
 	# Retrieve the content and parse it
-	info = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
-	url = info
+	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
 	result = s.get(url)
 
-	with open("file.html",'w') as f:
-		f.write(result.content)
-
-
+	# with open("file.html",'w') as f:
+	# 	f.write(result.content)
 
 	parser = infoParser()
 	parser.feed(unicode(result.content, "utf-8", "ignore"))
 	parser.close()
 
-	# print parser.result
-
-	ics = make_cal_event(parser.result)
-
-	return ics
-
-def get_tp_ids(eleve = 'oui', annee = 2 , groupe = 1,td = 1,tp = 1):
-	# TODO : Gerer les alternants et les profs
-	user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
-	param = ['trainee',60,80,20]	
-	if eleve == 'oui':
-		param[0] = 'trainee'
-		if annee == 1 :
-			if groupe == 1:
-				param[1] = 62
-				if td == 1:
-					param[2] = 72
-					if tp == 1:
-						param[3] = 2
-					elif tp == 2:
-						param[3] = 3
-				elif td == 2:
-					param[2] = 73
-					if tp == 3:
-						param[3] = 4
-					elif tp == 4:
-						param[3] = 5		
-				elif td == 3:
-					param[2] = 74
-					if tp == 5:
-						param[3] = 6
-					elif tp == 6:
-						param[3] = 7
-			elif groupe == 2:
-				param[1] = 62
-				if td == 1:
-					param[2] = 75
-					if tp == 1:
-						param[3] = 8
-					elif tp == 2:
-						param[3] = 9
-				elif td == 2:
-					param[2] = 76
-					if tp == 3:
-						param[3] = 10
-					elif tp == 4:
-						param[3] = 12		
-				elif td == 3:
-					param[2] = 383
-					if tp == 5:
-						param[3] = 384
-					elif tp == 6:
-						param[3] = 142			
-			elif groupe == 3:
-				param[1] = 63
-				if td == 1:
-					param[2] = 77
-					if tp == 1:
-						param[3] = 14
-					elif tp == 2:
-						param[3] = 15
-				elif td == 2:
-					param[2] = 78
-					if tp == 3:
-						param[3] = 16
-					elif tp == 4:
-						param[3] = 17		
-				elif td == 3:
-					param[2] = 79
-					if tp == 5:
-						param[3] = 18
-					elif tp == 6:
-						param[3] = 441	
-
-		elif annee == 2:
-			param[1] = 64
-			if groupe == 1:
-				if td == 1:
-					param[2] = 80
-					if tp == 1:
-						param[3] = 20
-					elif tp == 2:
-						param[3] = 21
-				elif td == 2:
-					param[2] = 81
-					if tp == 3:
-						param[3] = 22
-					elif tp == 4:
-						param[3] = 23		
-				elif td == 3:
-					param[2] = 386
-					if tp == 5:
-						param[3] = 388
-					elif tp == 6:
-						param[3] = 267
-			elif groupe == 2:
-				if td == 1:
-					param[2] = 82
-					if tp == 1:
-						param[3] = 24
-					elif tp == 2:
-						param[3] = 25
-				elif td == 2:
-					param[2] = 83
-					if tp == 3:
-						param[3] = 26
-					elif tp == 4:
-						param[3] = 27		
-				elif td == 3:
-					param[2] = 496
-					if tp == 5:
-						param[3] = 497
-					elif tp == 6:
-						param[3] = 498		
-			elif groupe == 3:
-				if td == 1:
-					param[2] = 85
-					if tp == 1:
-						param[3] = 29
-					elif tp == 2:
-						param[3] = 30
-				elif td == 2:
-					param[2] = 86
-					if tp == 3:
-						param[3] = 31
-					elif tp == 4:
-						param[3] = 32		
-				elif td == 3:
-					param[2] = 389
-					if tp == 5:
-						param[3] = 391
-					elif tp == 6:
-						param[3] = 398					
-		# elif annee == '3D' :
-		# 	param[1] = 62
-		# elif annee == '3A' :
-		# 	param[1] = 62	
-		else :
-			print 'Cette combinaison est invalde'
-		return user,param
+	return make_cal_event(parser.result)
 
 
-prefix = ''
-for annee in range(1,3):
-	for groupe in range(1,4) :
-		i = -2
-		for td in range(1,4) :
-			i+=2
-			for tp in range(1,3):
-				user,param = get_tp_ids(eleve='oui',groupe=groupe,annee=annee,td=td,tp=tp+i)
-				print user,param
 
-				events = get_ical(param)
-				with open(prefix+user+'.ics','w') as f:
-					f.write(str(events))
 
-# # param_lst = ['trainee',60,80,20]	
-# events = get_ical(param)
-# with open('list.ics','w') as f:
-# 	f.write(str(events))
+def fetch_ics(annee = 2 , groupe = 1,td = 1,tp = 1,path_destination = 'ics/'):
+	if not os.path.exists(path_destination):
+		os.mkdir(path_destination[:-1])
+	user,param = caligula_config.get_user_config(eleve='oui',groupe=groupe,annee=annee,td=td,tp=tp)
+	events = get_ical(param)
+	with open(path_destination+user+'.ics','w') as f:
+		f.write(str(events))
+	print user,param	
+
+
+def fetch_all_ical(path_destination = 'ics/'):
+
+	for annee in range(1,3):
+		for groupe in range(1,4) :
+			i = -2
+			for td in range(1,4) :
+				i+=2
+				for tp in range(1,3):
+					fetch_ics(groupe=groupe,annee=annee,td=td,tp=tp+i,path_destination=path_destination)
+
+
+def main():
+	fetch_all_ical()
+
+
+if __name__ == "__main__":
+    main()
