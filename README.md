@@ -52,6 +52,9 @@ Pour installer les dépendances, avec pip :
 
 * `pip install iCalendar`
 
+## Contact 
+
+Vous pouvez m'envoyer un mail à showok chez showok.info
 
 ##Crédits
 Sheep : [https://github.com/sheep/Chronos](Chronos)
