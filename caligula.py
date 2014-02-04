@@ -129,7 +129,7 @@ def make_cal_event(parsed):
 		event['dtstart'] = dateICal(start)
 		event['dtend'] = dateICal(end)
 		event["uid"] = uid
-		event.add('priority', 1)
+		event.add('priority', 9)
 		
 
 		cal.add_component(event)
@@ -202,7 +202,7 @@ def get_ical(param_lst):
 
 
 	for i in range(1, nbw - 1):
-		week = "week=%i" % (i) #nweek - i pour avoir juste les semaines restantes
+		week = "week=%i" % (nweek + i) #nweek - i pour avoir juste les semaines restantes
 		url = "%s?%s&reset=false" % (bounds, week)
 		result = s.get(url)
 	 
