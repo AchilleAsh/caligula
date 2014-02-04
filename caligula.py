@@ -113,13 +113,13 @@ def make_cal_event(parsed):
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
 		prof = str(i[5])
 		room = i[6]
-		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
+		name = i[3]
 		
-		if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
-			# groups = groups[:3]
-			continue
-		if groups == '2me ENSEA 1re A ENSEA 1re B ENSEA 3me ENSEA':
-			groups = "toute l'école"
+		# if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
+		# 	# groups = groups[:3]
+		# 	continue
+		# if groups == '2me ENSEA 1re A ENSEA 1re B ENSEA 3me ENSEA':
+		# 	groups = "toute l'école"
 		
 
 		# start_ical = dateICal(start)
@@ -136,7 +136,7 @@ def make_cal_event(parsed):
 		event['dtstart'] = dateICal(start)
 		event['dtend'] = dateICal(end)
 		event["uid"] = uid
-		event.add('priority', 9)
+		event.add('priority', 0)
 		
 
 		cal.add_component(event)
