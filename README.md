@@ -13,15 +13,17 @@ Les fichiers iCal (extension .ics) correspondent à la norme des calendriers. Vo
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
 
-Les fichiers iCal des cours sont disponibles sur (showok.info/caligula/ics). Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 2G1TD1TP1 le fichier d'emploi du temps sera (showok.info/caligula/ics/2G1TD1TP1.ics)
+Les fichiers iCal des cours sont disponibles sur (http://showok.info/caligula/ics). Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 2G1TD1TP1 le fichier d'emploi du temps sera [](http://showok.info/caligula/ics/2G1TD1TP1.ics)
 
 ### Avec Sunbird (intégré dans Thunderbird)
 
-Agenda > Nouvel agenda > Sur le réseau > format iCalendar
+Importer (ne sera pas actualisé) : Evenements et tâches > Importer > votre fichier .ics 
+Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps
 
 ### Avec Google Calendar
 
-TODO
+Importer (ne sera pas actualisé) :
+Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps
 
 ### Avec iCal
 
