@@ -23,8 +23,11 @@ Les fichiers iCal (extension .ics) correspond à la norme des calendriers. Ils p
 * iCalendar
 
 Pour installer les dépendances, avec pip :
-``` pip install requests
- pip install iCalendar```
+* installer pip : `sudo apt-get install python-pip`
+
+* `pip install requests`
+
+* `pip install iCalendar`
 
 ##Crédits
 Sheep : [https://github.com/sheep/Chronos](Chronos)
