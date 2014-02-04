@@ -57,6 +57,7 @@ class infoParser(HTMLParser):
 	def end_td(self):
 		# print " end td"
 		if self.active and not self.skipping:
+			# print self.current_data
 			self.current_row.append(
 			string.join(self.current_data))
 		
@@ -224,8 +225,13 @@ def get_ical(param_lst):
 	with open("file.html",'w') as f:
 		f.write(result.content)
 
+
+	content = result.content
+	# encoding = chardet.detect(content)['encoding']
+	# print 'encoding',encoding
+	# parser.feed(unicode(result.content, "utf-8", "ignore"))
 	parser = infoParser()
-	parser.feed(unicode(result.content, "utf-8", "ignore"))
+	parser.feed(result.content.decode("ISO-8859-2","ignore"))
 	parser.close()
 
 	return make_cal_event(parser.result)
