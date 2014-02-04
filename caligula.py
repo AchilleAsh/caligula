@@ -110,14 +110,21 @@ def make_cal_event(parsed):
 		end = start + timedelta(hours = delta.hour, minutes = delta.minute)
 
 		
-		groups = i[4]
+		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
 		prof = str(i[5])
 		room = i[6]
 		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
+		
+		if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
+			# groups = groups[:3]
+			continue
+		if groups == '2me ENSEA 1re A ENSEA 1re B ENSEA 3me ENSEA':
+			groups = "toute l'école"
+		
+
 		# start_ical = dateICal(start)
 		# end_ical = dateICal(end)
 		summary = "%s avec %s en %s" %(name,prof,room)
-
 		event_condensed_name = "%s-%s" % (name, prof)
 		event_condensed_name = re.sub('[^\w]','_', event_condensed_name)
 		uid =  "%s-%s-%s" % (groups, start, event_condensed_name)
