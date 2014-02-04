@@ -15,6 +15,7 @@ import urllib2
 import getopt
 import requests
 from icalendar import Calendar, Event
+import chardet
 # import caligula_config
 
 
@@ -111,9 +112,10 @@ def make_cal_event(parsed):
 
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
-		prof = str(i[5])
+		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')
+
 		room = i[6]
-		name = i[3]
+		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
 		
 		# if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
 		# 	# groups = groups[:3]
@@ -127,12 +129,14 @@ def make_cal_event(parsed):
 		summary = "%s avec %s en %s" %(name,prof,room)
 		event_condensed_name = "%s-%s" % (name, prof)
 		event_condensed_name = re.sub('[^\w]','_', event_condensed_name)
-		uid =  "%s-%s-%s" % (groups, start, event_condensed_name)
-		
+		uid =  "%s-%s" % (start, event_condensed_name)
 
 
 		event = Event()
 		event.add('summary',summary)
+		event.add('location',room)
+
+		event.add('categories','Cours')
 		event['dtstart'] = dateICal(start)
 		event['dtend'] = dateICal(end)
 		event["uid"] = uid
@@ -217,8 +221,8 @@ def get_ical(param_lst):
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
 	result = s.get(url)
 
-	# with open("file.html",'w') as f:
-	# 	f.write(result.content)
+	with open("file.html",'w') as f:
+		f.write(result.content)
 
 	parser = infoParser()
 	parser.feed(unicode(result.content, "utf-8", "ignore"))
