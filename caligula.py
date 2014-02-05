@@ -250,14 +250,22 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 		td = int(user[5])
 		tp = int(user[8])
 	
+
+	elif user[0] == '3':
+		if user[1:3].lower() in 'aei':
+			option = 'aei'
+			tp = user[1:3]
+
 	elif user[0:2].lower() in 'sic': 
 		tp = int(user[5])
-		annee = 'mastere'
-		print 'sic'
+		td = 'sic'
+		option = 'mastere'
+		
 	elif user[0:2].lower() in 'esa': 
 		td = 'esa'
 		tp = int(user[5])
 		option = 'mastere'
+		
 	elif user[0:2].lower() in 'madocs':
 		td = 'madocs'
 		tp = int(user[8])
@@ -266,7 +274,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 			 
 			
 	# user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
-	param = ['trainee',60,80,20] #defaut
+	param = ['trainee',62,72,2] #defaut
 
 	if user_type in 'stagiaires':
 		param[0] = 'trainee'
@@ -417,8 +425,8 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 		# else :
 		# 	print 'Cette combinaison est invalde'
 
-	if user.lower() not in '2G1TD1TP1'.lower() and (param[1] == 60 or param[2] == 80 or param[3] == 20) :
-		sys.stderr.write("Cette option est inconnue")
+	if user.lower() not in '1G1TD1TP1'.lower() and (param[3] == 2) : #param[1] == 60 or param[2] == 80 or param
+		sys.stderr.write("Cette option est inconnue : %s,%s,%s" %(user_type,user,param))
 		sys.exit(2)
 
 	return user,param
@@ -437,17 +445,17 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 def fetch_all_ical(path_destination = 'ics/'):
 
 	# 1A et 2A
-	for annee in range(1,3):
-		for groupe in range(1,4) :
-			i = -2
-			for td in range(1,4) :
-				i+=2
-				for tp in range(1,3):
-					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,tp),path_destination=path_destination)
+	# for annee in range(1,3):
+	# 	for groupe in range(1,4) :
+	# 		i = -2
+	# 		for td in range(1,4) :
+	# 			i+=2
+	# 			for tp in range(1,3):
+	# 				fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination)
 
 	# Mastere
 	for master in """esa sic madocs""".split() :
-		for tp in range (0,4):
+		for tp in range (1,4):
 			fetch_ics(user= "%sTP%s" %(master,tp),path_destination=path_destination)
 
 
