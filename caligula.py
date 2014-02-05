@@ -265,7 +265,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 		td = 'esa'
 		tp = int(user[5])
 		option = 'mastere'
-		
+
 	elif user[0:2].lower() in 'madocs':
 		td = 'madocs'
 		tp = int(user[8])
