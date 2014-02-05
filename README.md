@@ -1,6 +1,6 @@
 Ce script permet de récupérer l'emploi du temps de [l'école](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Si vous ne voulez pas installer python (natif sous GNU/linux et MacOS), vous pouvez vous contenter d'exploiter les fichiers iCal fournits.
 
-Ce script gère pour l'instant seulement les premières, deuxième années et mastere du cursus continue. 
+Ce script gère pour l'instant seulement les premières, deuxième années et mastere du cursus continue ; ils sont tous accessible par ce [site](http://showok.info/caligula)
 
 
 
