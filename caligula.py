@@ -169,10 +169,10 @@ def make_cal_event(parsed):
 		event.add('summary',summary)
 		event.add('location',room)
 		event.add('categories','Cours')
-		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Vienna")))
+		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Paris")))
 		# # event['dtstart'] = dateICal(start)
 		# event.add('dtstart', datetime(start,tzinfo=pytz.timezone("Europe/Vienna")))
-		event.add('dtend',datetime(date_end[0],date_end[1],date_end[2],hour_end[0],hour_end[1],hour_end[2],tzinfo=pytz.timezone("Europe/Vienna")))
+		event.add('dtend',datetime(date_end[0],date_end[1],date_end[2],hour_end[0],hour_end[1],hour_end[2],tzinfo=pytz.timezone("Europe/Paris")))
 		event["uid"] = uid
 		event.add('priority', 0)
 		
