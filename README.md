@@ -1,7 +1,6 @@
 Ce script permet de récupérer l'emploi du temps de [l'école](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Si vous ne voulez pas installer python (natif sous GNU/linux et MacOS), vous pouvez vous contenter d'exploiter les fichiers iCal fournits.
 
-Ce script gère pour l'instant seulement les premières, deuxième années et mastere du cursus continue ; ils sont tous accessible par ce [site](http://showok.info/caligula)
-
+Ce script gère pour l'instant seulement les premières, deuxième années et mastere du cursus continue ; vous pouvez visualiser le rendu sur [site](http://showok.info/caligula)
 
 
 ##Usage
@@ -14,6 +13,19 @@ exemple : `python caligula.py -g 1G3TD2TP3`
 exemple : `python caligula.py -g ESATP3`
 
 exemple : `python caligula.py -g all`
+
+##Dépendances
+
+* Requests 
+* iCalendar
+
+Pour installer les dépendances, avec pip :
+
+* installer pip : `sudo apt-get install python-pip`
+
+* `pip install requests`
+
+* `pip install iCalendar`
 
 
 ##Exploitation des fichiers iCal
@@ -32,11 +44,11 @@ Vous pouvez visualiser votre emploi du temps avec l'application native d'agenda,
 
 #### Avec un compte Google
 
-Le plus simple est d'utiliser un compte google pour synchroniser ses contacts ; suivre la rubrique 'Avec Google Calendar'.
+Vous pouvez utiliser un compte google pour synchroniser ses contacts ; suivre la rubrique 'Avec Google Calendar'.
 
 #### Sans compte google
 
-L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisation [CalDav](http://fr.wikipedia.org/wiki/CalDAV) ; il faut donc installer une [application tierce](https://play.google.com/store/apps/details?id=org.kc.and.ical&hl=fr) qui permet de faire la synchronisation.
+L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisation [CalDav](http://fr.wikipedia.org/wiki/CalDAV) ; il faut donc installer une [application tierce](https://play.google.com/store/apps/details?id=org.kc.and.ical&hl=fr) qui permet de faire la synchronisation. C'est tout aussi simple que de passer par Google Calendar, et ça fera une chose de moins que google aura de vous.
 
 ### Sur iOS
 
@@ -49,7 +61,7 @@ TODO
 
 ### Avec Google Calendar
 
-* Importer (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
+* Importer le fichier (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
 
 * Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps
 
@@ -59,29 +71,14 @@ TODO
 
 ##TODO
 
-* Configurer la timezone avec VTIMEZONE 
 * gestion des alternants, 3A, masters et enseignants
-* Interfacer avec [radicale](http://radicale.org/) pour gérer le protocle CalDav plus approprié.
-* Ajouter une interface web
+* améliorer la gestion des parametres d'entrée pour pouvoir avoir le choix du fichier à récupérer
+* faire
+* Ajouter une interface web à la webteam
 
-
-
-##Dépendances
-
-* Requests 
-* iCalendar
-
-Pour installer les dépendances, avec pip :
-
-* installer pip : `sudo apt-get install python-pip`
-
-* `pip install requests`
-
-* `pip install iCalendar`
 
 ## Contact 
 
 Vous pouvez m'envoyer un mail à showok chez showok.info
 
-##Crédits
-Sheep : [https://github.com/sheep/Chronos](Chronos)
+
