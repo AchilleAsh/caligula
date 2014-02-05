@@ -15,6 +15,7 @@ import urllib2
 import getopt
 import requests
 from icalendar import Calendar, Event
+import pytz
 # import chardet
 # import caligula_config
 
@@ -94,27 +95,27 @@ def dateICal(date):
 
 def make_cal_event(parsed):
 	cal = Calendar()
-	cal.add('prodid', '-//Caligula ENSEA parser//http://show0k.github.io/caligula///')
-	cal.add('version', '2.0')
-	cal.add('X-WR-TIMEZONE','Europe/Paris')
-	cal.add('BEGIN','VTIMEZONE')
-	cal.add('TZID','Europe/Paris')
-	cal.add('X-LIC-LOCATION','Europe/Paris')
-	cal.add('BEGIN','DAYLIGHT')
-	cal.add('TZOFFSETFROM','+0100')
-	cal.add('TZOFFSETTO','+0200')
-	cal.add('TZNAME','CEST')
-	cal.add('DTSTART','19700329T020000')
-	cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3')
-	cal.add('END','DAYLIGHT')
-	cal.add('BEGIN','STANDARD')
-	cal.add('TZOFFSETFROM','+0200')
-	cal.add('TZOFFSETTO','+0100')
-	cal.add('TZNAME','CET')
-	cal.add('DTSTART','19701025T030000')
-	cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10')
-	cal.add('END','STANDARD')
-	cal.add('END','VTIMEZONE')
+	# cal.add('prodid', '-//Caligula ENSEA parser//http://show0k.github.io/caligula///')
+	# cal.add('version', '2.0')
+	# cal.add('X-WR-TIMEZONE','Europe/Paris')
+	# cal.add('BEGIN','VTIMEZONE')
+	# cal.add('TZID','Europe/Paris')
+	# cal.add('X-LIC-LOCATION','Europe/Paris')
+	# cal.add('BEGIN','DAYLIGHT')
+	# cal.add('TZOFFSETFROM','+0100')
+	# cal.add('TZOFFSETTO','+0200')
+	# cal.add('TZNAME','CEST')
+	# cal.add('DTSTART','19700329T020000')
+	# cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3')
+	# cal.add('END','DAYLIGHT')
+	# cal.add('BEGIN','STANDARD')
+	# cal.add('TZOFFSETFROM','+0200')
+	# cal.add('TZOFFSETTO','+0100')
+	# cal.add('TZNAME','CET')
+	# cal.add('DTSTART','19701025T030000')
+	# cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10')
+	# cal.add('END','STANDARD')
+	# cal.add('END','VTIMEZONE')
 	cal['summary'] = "Emploi du temps de l'ENSEA"
 
 
@@ -125,12 +126,14 @@ def make_cal_event(parsed):
 		if len(i) < 7:
 			continue
 		start = datetime.strptime("%s %s" % (i[0], i[1]), "%d/%m/%Y %H:%M")
+		# print  start
 		if re.match("^\d{1,2}h$", i[2]):
 			delta = datetime.strptime(i[2], "%Hh")
+
 		else: # /2h30min/
 			delta = datetime.strptime(i[2], "%Mmin")
 		end = start + timedelta(hours = delta.hour, minutes = delta.minute)
-
+		# print end
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
 		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]
@@ -151,20 +154,25 @@ def make_cal_event(parsed):
 		# 	groups = "toute l'école"
 		
 
-		# start_ical = dateICal(start)
-		# end_ical = dateICal(end)
+		start_ical = dateICal(start)
+		end_ical = dateICal(end)
 		summary = "%s avec %s en %s" %(name,prof,room)
 
 		event_condensed_name = re.sub('[^\w]','_', "%s-%s" % (name, prof))
 		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), event_condensed_name[:10])
 
-
+		hour_start = [int(h) for h in str(start).split(" ")[1].split(':')]
+		hour_end = [int(h) for h in str(end).split(" ")[1].split(':')]
+		date_start = [int(d) for d in str(start).split(" ")[0].split('-')]
+		date_end = [int(d) for d in str(end).split(" ")[0].split('-')]
 		event = Event()
 		event.add('summary',summary)
 		event.add('location',room)
 		event.add('categories','Cours')
-		event['dtstart'] = dateICal(start)
-		event['dtend'] = dateICal(end)
+		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Vienna")))
+		# # event['dtstart'] = dateICal(start)
+		# event.add('dtstart', datetime(start,tzinfo=pytz.timezone("Europe/Vienna")))
+		event.add('dtend',datetime(date_end[0],date_end[1],date_end[2],hour_end[0],hour_end[1],hour_end[2],tzinfo=pytz.timezone("Europe/Vienna")))
 		event["uid"] = uid
 		event.add('priority', 0)
 		
