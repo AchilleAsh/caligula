@@ -242,21 +242,33 @@ def get_ical(param_lst):
 
 def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	# TODO : Gerer les alternants et les profs
-
-	if user[1].lower() == 'g' and len(user) == 9 and user_type == 'stagiaires': #1A 2A
+	annee = td = tp = 0
+	option = ""
+	if user[1].lower() == 'g' and len(user) == 9 and user_type in 'stagiaires': #1A 2A
 		annee = int(user[0])
 		groupe = int(user[2])
 		td = int(user[5])
 		tp = int(user[8])
-	if user_type == 'mastere' and len(user) :
-		if user[0:2].lower() == 'sic': 
-			td = 'sic'
-			tp = int(user_type[5])
+	
+	elif user[0:2].lower() in 'sic': 
+		tp = int(user[5])
+		annee = 'mastere'
+		print 'sic'
+	elif user[0:2].lower() in 'esa': 
+		td = 'esa'
+		tp = int(user[5])
+		option = 'mastere'
+	elif user[0:2].lower() in 'madocs':
+		td = 'madocs'
+		tp = int(user[8])
+		option = 'mastere'
 
+			 
+			
+	# user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
+	param = ['trainee',60,80,20] #defaut
 
-	user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
-	param = ['trainee',60,80,20]	
-	if user_type == 'stagiaires':
+	if user_type in 'stagiaires':
 		param[0] = 'trainee'
 		if annee == 1 :
 			if groupe == 1:
@@ -379,8 +391,24 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 						param[3] = 391
 					elif tp == 6:
 						param[3] = 398	
-		elif user_type == 'masteres':
-			pass
+		elif option in 'masteres':
+			param[1] = 298
+			if td == 'sic':
+				param[2] = 507
+				if tp == 1 : param[3] = 508
+				elif tp == 2 : param[3] = 509
+				elif tp == 3 : param[3] = 559
+			elif td == 'esa':
+				param[2] = 431
+				if tp == 1 : param[3] = 433
+				elif tp == 2 : param[3] = 262
+				elif tp == 3 : param[3] = 422
+			elif td == 'madocs':
+				param[1] = 247
+				if tp == 1 : param[3] = 750
+				elif tp == 2 : param[3] = 748
+				elif tp == 3 : param[3] = 749
+
 
 		# elif annee == '3D' :
 		# 	param[1] = 62
@@ -388,6 +416,11 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 		# 	param[1] = 62	
 		# else :
 		# 	print 'Cette combinaison est invalde'
+
+	if user.lower() not in '2G1TD1TP1'.lower() and (param[1] == 60 or param[2] == 80 or param[3] == 20) :
+		sys.stderr.write("Cette option est inconnue")
+		sys.exit(2)
+
 	return user,param
 
 
@@ -403,6 +436,7 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 
 def fetch_all_ical(path_destination = 'ics/'):
 
+	# 1A et 2A
 	for annee in range(1,3):
 		for groupe in range(1,4) :
 			i = -2
@@ -410,6 +444,11 @@ def fetch_all_ical(path_destination = 'ics/'):
 				i+=2
 				for tp in range(1,3):
 					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,tp),path_destination=path_destination)
+
+	# Mastere
+	for master in """esa sic madocs""".split() :
+		for tp in range (0,4):
+			fetch_ics(user= "%sTP%s" %(master,tp),path_destination=path_destination)
 
 
 def usage():
@@ -433,14 +472,14 @@ def main(argv):
 		elif opt in ("-g", "--groupe"): groupe = arg
 
 
-	if len(groupe) != 9  and groupe != 'all':
-		print "Le choix '%s' est incorrect" %(groupe)
-		usage()
+	# if len(groupe) != 9  and groupe != 'all':
+	# 	print "Le choix '%s' est incorrect" %(groupe)
+	# 	usage()
 
 	if groupe == 'all' :
 		fetch_all_ical()
 	else :
-		fetch_ics(annee=groupe[0],groupe=groupe[2],td=groupe[5],tp=groupe[8])
+		fetch_ics(user=groupe)
 
 
 
