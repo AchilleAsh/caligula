@@ -114,8 +114,15 @@ def make_cal_event(parsed):
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
 		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]
+		
+		prof_lst = prof.split(" ")
+		if len(prof_lst) < 3 : prof = prof_lst[-1]+" "+" ".join(prof_lst[0:-1])
+	
+
+
 		room = i[6][:5]
 		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
+
 		
 		# if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
 		# 	# groups = groups[:3]
@@ -227,14 +234,13 @@ def get_ical(param_lst):
 	content = result.content
 	# encoding = chardet.detect(content)['encoding']
 	# print 'encoding',encoding
-	# parser.feed(unicode(result.content, "utf-8", "ignore"))
 	parser = infoParser()
 	parser.feed(result.content.decode("ISO-8859-2","ignore"))
 	parser.close()
 
 	return make_cal_event(parser.result)
 
-def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1', annee = 2 , groupe = 1,td = 1,tp = 1,):
+def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	# TODO : Gerer les alternants et les profs
 
 	if user[1].lower() == 'g' and len(user) == 9 and user_type == 'stagiaires': #1A 2A
