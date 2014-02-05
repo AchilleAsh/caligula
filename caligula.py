@@ -15,7 +15,7 @@ import urllib2
 import getopt
 import requests
 from icalendar import Calendar, Event
-import chardet
+# import chardet
 # import caligula_config
 
 
@@ -97,24 +97,24 @@ def make_cal_event(parsed):
 	cal.add('prodid', '-//Caligula ENSEA parser//http://show0k.github.io/caligula///')
 	cal.add('version', '2.0')
 	cal.add('X-WR-TIMEZONE','Europe/Paris')
-	cal['BEGIN']='VTIMEZONE'
-	cal['TZID']='Europe/Paris'
-	cal['X-LIC-LOCATION']='Europe/Paris'
-	cal['BEGIN']='DAYLIGHT'
-	cal['TZOFFSETFROM']='+0100'
-	cal['TZOFFSETTO']='+0200'
-	cal['TZNAME']='CEST'
-	cal['DTSTART']='19700329T020000'
-	cal['RRULE']='FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3'
-	cal['END']='DAYLIGHT'
-	cal['BEGIN']='STANDARD'
-	cal['TZOFFSETFROM']='+0200'
-	cal['TZOFFSETTO']='+0100'
-	cal['TZNAME']='CET'
-	cal['DTSTART']='19701025T030000'
-	cal['RRULE']='FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10'
-	cal['END']='STANDARD'
-	cal['END']='VTIMEZONE'
+	cal.add('BEGIN','VTIMEZONE')
+	cal.add('TZID','Europe/Paris')
+	cal.add('X-LIC-LOCATION','Europe/Paris')
+	cal.add('BEGIN','DAYLIGHT')
+	cal.add('TZOFFSETFROM','+0100')
+	cal.add('TZOFFSETTO','+0200')
+	cal.add('TZNAME','CEST')
+	cal.add('DTSTART','19700329T020000')
+	cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3')
+	cal.add('END','DAYLIGHT')
+	cal.add('BEGIN','STANDARD')
+	cal.add('TZOFFSETFROM','+0200')
+	cal.add('TZOFFSETTO','+0100')
+	cal.add('TZNAME','CET')
+	cal.add('DTSTART','19701025T030000')
+	cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10')
+	cal.add('END','STANDARD')
+	cal.add('END','VTIMEZONE')
 	cal['summary'] = "Emploi du temps de l'ENSEA"
 
 
