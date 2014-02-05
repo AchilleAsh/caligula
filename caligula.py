@@ -113,9 +113,8 @@ def make_cal_event(parsed):
 
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
-		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')
-
-		room = i[6]
+		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]
+		room = i[6][:5]
 		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
 		
 		# if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
@@ -128,15 +127,14 @@ def make_cal_event(parsed):
 		# start_ical = dateICal(start)
 		# end_ical = dateICal(end)
 		summary = "%s avec %s en %s" %(name,prof,room)
-		event_condensed_name = "%s-%s" % (name, prof)
-		event_condensed_name = re.sub('[^\w]','_', event_condensed_name)
-		uid =  "%s-%s" % (start, event_condensed_name)
+
+		event_condensed_name = re.sub('[^\w]','_', "%s-%s" % (name, prof))
+		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), event_condensed_name[:10])
 
 
 		event = Event()
 		event.add('summary',summary)
 		event.add('location',room)
-
 		event.add('categories','Cours')
 		event['dtstart'] = dateICal(start)
 		event['dtend'] = dateICal(end)
@@ -245,8 +243,8 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1', annee = 2 , gr
 		td = int(user[5])
 		tp = int(user[8])
 	if user_type == 'mastere' and len(user) :
-		if user[0:2].lower() == 'sic' 
-			td  = 'sic'
+		if user[0:2].lower() == 'sic': 
+			td = 'sic'
 			tp = int(user_type[5])
 
 
@@ -376,6 +374,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1', annee = 2 , gr
 					elif tp == 6:
 						param[3] = 398	
 		elif user_type == 'masteres':
+			pass
 
 		# elif annee == '3D' :
 		# 	param[1] = 62
@@ -383,13 +382,13 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1', annee = 2 , gr
 		# 	param[1] = 62	
 		# else :
 		# 	print 'Cette combinaison est invalde'
-		return user,param
+	return user,param
 
 
-def fetch_ics(annee = 2 , groupe = 1,td = 1,tp = 1,path_destination = ' '):
+def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '):
 	if not os.path.exists(path_destination) and len(path_destination) > 2:
 		os.mkdir(path_destination[:-1])
-	user,param = get_user_config(eleve='oui',groupe=groupe,annee=annee,td=td,tp=tp)
+	user,param = get_user_config(user=user)
 	events = get_ical(param)
 	with open(path_destination+user+'.ics','w') as f:
 		f.write(str(events))
@@ -404,7 +403,7 @@ def fetch_all_ical(path_destination = 'ics/'):
 			for td in range(1,4) :
 				i+=2
 				for tp in range(1,3):
-					fetch_ics(groupe=groupe,annee=annee,td=td,tp=tp+i,path_destination=path_destination)
+					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,tp),path_destination=path_destination)
 
 
 def usage():
