@@ -1,7 +1,17 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//My calendar product//mxm.dk//
-SUMMARY:Emploi du temps de ENSEA
+PRODID:-//Caligula ENSEA parser//http://show0k.github.io/caligula///
+BEGIN:STANDARD
+DTSTART:19701025T030000
+END:VTIMEZONE
+RRULE:FREQ=YEARLY\;BYDAY=-1SU\;BYMONTH=10
+SUMMARY:Emploi du temps de l'ENSEA
+TZID:Europe/Paris
+TZNAME:CET
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+X-LIC-LOCATION:Europe/Paris
+X-WR-TIMEZONE:Europe/Paris
 BEGIN:VEVENT
 SUMMARY:Microprocesseurs avec Lounis Kessal en A108
 DTSTART:20140203T130000

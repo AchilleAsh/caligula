@@ -94,9 +94,29 @@ def dateICal(date):
 
 def make_cal_event(parsed):
 	cal = Calendar()
-	cal.add('prodid', '-//My calendar product//mxm.dk//')
+	cal.add('prodid', '-//Caligula ENSEA parser//http://show0k.github.io/caligula///')
 	cal.add('version', '2.0')
-	cal['summary'] = 'Emploi du temps de ENSEA'
+	cal.add('X-WR-TIMEZONE','Europe/Paris')
+	cal['BEGIN']='VTIMEZONE'
+	cal['TZID']='Europe/Paris'
+	cal['X-LIC-LOCATION']='Europe/Paris'
+	cal['BEGIN']='DAYLIGHT'
+	cal['TZOFFSETFROM']='+0100'
+	cal['TZOFFSETTO']='+0200'
+	cal['TZNAME']='CEST'
+	cal['DTSTART']='19700329T020000'
+	cal['RRULE']='FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3'
+	cal['END']='DAYLIGHT'
+	cal['BEGIN']='STANDARD'
+	cal['TZOFFSETFROM']='+0200'
+	cal['TZOFFSETTO']='+0100'
+	cal['TZNAME']='CET'
+	cal['DTSTART']='19701025T030000'
+	cal['RRULE']='FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10'
+	cal['END']='STANDARD'
+	cal['END']='VTIMEZONE'
+	cal['summary'] = "Emploi du temps de l'ENSEA"
+
 
 	for i in parsed:
 
@@ -445,13 +465,13 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 def fetch_all_ical(path_destination = 'ics/'):
 
 	# 1A et 2A
-	# for annee in range(1,3):
-	# 	for groupe in range(1,4) :
-	# 		i = -2
-	# 		for td in range(1,4) :
-	# 			i+=2
-	# 			for tp in range(1,3):
-	# 				fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination)
+	for annee in range(1,3):
+		for groupe in range(1,4) :
+			i = -2
+			for td in range(1,4) :
+				i+=2
+				for tp in range(1,3):
+					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination)
 
 	# Mastere
 	for master in """esa sic madocs""".split() :
