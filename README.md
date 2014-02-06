@@ -6,11 +6,11 @@ Pour générer les fichier iCal
 
 `python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
 
-exemple : `python caligula.py -g 1G3TD2TP3`
+exemple, pour créer l'agenda du groupe 1G3TD2TP3 : `python caligula.py -g 1G3TD2TP3`
 
-exemple : `python caligula.py -g ESATP3`
+exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
 
-exemple : `python caligula.py -g all`
+exemple pour créer tous les agendas possibles : `python caligula.py -g all`
 
 ##Dépendances
 

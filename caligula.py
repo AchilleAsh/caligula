@@ -230,20 +230,25 @@ def get_html_agenda(param_lst,debug = True):
 
 	if param_lst[1] != 0 :
 		branch = "branchId=%i" % param_lst[1]
+
+		url  = "%s?select%s&reset=true&forceLoad=false&reload=false" % (tree,branch)
+		r = s.get(url)
+
 		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
 		r = s.get(url)
 
-		url  = "%s?select%s&reset=true&forceLoad=false&scroll=0"(tree,branch)
-		r = s.get(url)
+
 
 
 	if param_lst[2] != 0 :	
 		branch = "branchId=%i" % param_lst[2]
+
+		url  = "%s?select%s&reset=true&forceLoad=false&reload=false" % (tree,branch)
+		r = s.get(url)
+
 		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
 		r = s.get(url)
-		
-		url  = "%s?select%s&reset=true&forceLoad=false&scroll=0"(tree,branch)
-		r = s.get(url)
+
 
 
 	if param_lst[3] != 0 :
@@ -268,7 +273,8 @@ def get_html_agenda(param_lst,debug = True):
 	url = "%s?%s&reset=true" % (bounds, week)
 	result = s.get(url)
 
-
+	with open('html.html','w') as f:
+		f.write(str(result))
 	for i in range(1, nbw - 1):
 		week = "week=%i" % (nweek + i) #nweek - i pour avoir juste les semaines restantes
 		url = "%s?%s&reset=false" % (bounds, week)
@@ -304,19 +310,25 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 			tp = user[1:3]
 
 	elif user[0:2].lower() in 'sic': 
-		tp = int(user[5])
 		td = 'sic'
 		option = 'mastere'
+		if len(user)> 3:
+			tp = int(user[5])
+
 		
 	elif user[0:2].lower() in 'esa': 
 		td = 'esa'
-		tp = int(user[5])
 		option = 'mastere'
+		if len(user)> 3:
+			tp = int(user[5])
 
 	elif user[0:2].lower() in 'madocs':
 		td = 'madocs'
-		tp = int(user[8])
 		option = 'mastere'
+		tp = int(user[8])
+		if len(user)> 6:
+			tp = int(user[5])
+
 
 			 
 			
