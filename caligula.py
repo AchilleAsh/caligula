@@ -28,6 +28,7 @@ import getopt
 import requests
 from icalendar import Calendar, Event
 import pytz
+import json
 # import chardet
 # import caligula_config
 
@@ -100,34 +101,14 @@ class infoParser(HTMLParser):
 			self.end_td()
 
 
-
 def dateICal(date):
 	return date.strftime("%Y%m%dT%H%M%S")
 
 
-def make_cal_event(parsed):
+
+
+def make_calendar(parsed):
 	cal = Calendar()
-	# cal.add('prodid', '-//Caligula ENSEA parser//http://show0k.github.io/caligula///')
-	# cal.add('version', '2.0')
-	# cal.add('X-WR-TIMEZONE','Europe/Paris')
-	# cal.add('BEGIN','VTIMEZONE')
-	# cal.add('TZID','Europe/Paris')
-	# cal.add('X-LIC-LOCATION','Europe/Paris')
-	# cal.add('BEGIN','DAYLIGHT')
-	# cal.add('TZOFFSETFROM','+0100')
-	# cal.add('TZOFFSETTO','+0200')
-	# cal.add('TZNAME','CEST')
-	# cal.add('DTSTART','19700329T020000')
-	# cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3')
-	# cal.add('END','DAYLIGHT')
-	# cal.add('BEGIN','STANDARD')
-	# cal.add('TZOFFSETFROM','+0200')
-	# cal.add('TZOFFSETTO','+0100')
-	# cal.add('TZNAME','CET')
-	# cal.add('DTSTART','19701025T030000')
-	# cal.add('RRULE','FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10')
-	# cal.add('END','STANDARD')
-	# cal.add('END','VTIMEZONE')
 	cal['summary'] = "Emploi du temps de l'ENSEA"
 
 
@@ -142,7 +123,7 @@ def make_cal_event(parsed):
 		if re.match("^\d{1,2}h$", i[2]):
 			delta = datetime.strptime(i[2], "%Hh")
 
-		else: # /2h30min/
+		else: # /30min/
 			delta = datetime.strptime(i[2], "%Mmin")
 		end = start + timedelta(hours = delta.hour, minutes = delta.minute)
 		# print end
@@ -152,7 +133,6 @@ def make_cal_event(parsed):
 		
 		prof_lst = prof.split(" ")
 		if len(prof_lst) < 3 : prof = prof_lst[-1]+" "+" ".join(prof_lst[0:-1])
-	
 
 
 		room = i[6][:5]
@@ -173,10 +153,13 @@ def make_cal_event(parsed):
 		event_condensed_name = re.sub('[^\w]','_', "%s-%s" % (name, prof))
 		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), event_condensed_name[:10])
 
+		# Pour ajouter le timezone proprement
 		hour_start = [int(h) for h in str(start).split(" ")[1].split(':')]
 		hour_end = [int(h) for h in str(end).split(" ")[1].split(':')]
 		date_start = [int(d) for d in str(start).split(" ")[0].split('-')]
 		date_end = [int(d) for d in str(end).split(" ")[0].split('-')]
+
+		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
 		event = Event()
 		event.add('summary',summary)
 		event.add('location',room)
@@ -191,7 +174,7 @@ def make_cal_event(parsed):
 
 		cal.add_component(event)
 
-	return cal.to_ical()
+	return cal
 
 
 
@@ -214,9 +197,24 @@ class weekParser(HTMLParser):
 			self.pianoSelected = False
 
 
+def ical_to_json(ics):
+ 
+	cal = ics
+	data = {}
+	data[cal.name] = dict(cal.items())
+	
+	for component in cal.subcomponents:
+		if not data[cal.name].has_key(component.name):
+			data[cal.name][component.name] = []
+			
+		comp_obj = {}
+		for item in component.items():
+			comp_obj[item[0]] = unicode(item[1])
+		
+		data[cal.name][component.name].append(comp_obj)
+	return data
 
-
-def get_ical(param_lst):
+def get_html_agenda(param_lst,debug = True):
 
 	URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=4&login=ensea&password=ensea'
 	tree = "http://caligula.ensea.fr/ade/standard/gui/tree.jsp"
@@ -224,21 +222,34 @@ def get_ical(param_lst):
 	s.get(URL1)
 	nbw = 38
 
-	category = "category=%s" % param_lst[0]
-	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
-	r = s.get(url)
+	if param_lst[0] not in '' :
+		category = "category=%s" % param_lst[0]
+		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
+		r = s.get(url)
 
-	branch = "branchId=%i" % param_lst[1]
-	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
-	r = s.get(url)
 
-	branch = "branchId=%i" % param_lst[2]
-	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
-	r = s.get(url)
+	if param_lst[1] != 0 :
+		branch = "branchId=%i" % param_lst[1]
+		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
+		r = s.get(url)
 
-	selectId = "selectId=%i" % param_lst[3]
-	url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, selectId)
-	r = s.get(url)
+		url  = "%s?select%s&reset=true&forceLoad=false&scroll=0"(tree,branch)
+		r = s.get(url)
+
+
+	if param_lst[2] != 0 :	
+		branch = "branchId=%i" % param_lst[2]
+		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, branch)
+		r = s.get(url)
+		
+		url  = "%s?select%s&reset=true&forceLoad=false&scroll=0"(tree,branch)
+		r = s.get(url)
+
+
+	if param_lst[3] != 0 :
+		selectId = "selectId=%i" % param_lst[3]
+		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, selectId)
+		r = s.get(url)
 
 	# Get the time bar
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/pianoWeeks.jsp"
@@ -267,29 +278,25 @@ def get_ical(param_lst):
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
 	result = s.get(url)
 
-	with open("file.html",'w') as f:
-		f.write(result.content)
 
-
-	content = result.content
+	content = result.content.decode("ISO-8859-2","ignore")
 	# encoding = chardet.detect(content)['encoding']
 	# print 'encoding',encoding
-	parser = infoParser()
-	parser.feed(result.content.decode("ISO-8859-2","ignore"))
-	parser.close()
-
-	return make_cal_event(parser.result)
+	
+	return content
+	
 
 def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	# TODO : Gerer les alternants et les profs
 	annee = td = tp = 0
 	option = ""
-	if user[1].lower() == 'g' and len(user) == 9 and user_type in 'stagiaires': #1A 2A
+	if user[1].lower() == 'g'  and user_type in 'stagiaires': #1A 2A
 		annee = int(user[0])
 		groupe = int(user[2])
-		td = int(user[5])
-		tp = int(user[8])
-	
+		if(len(user) > 5):
+			td = int(user[5])
+			if(len(user) > 8):
+				tp = int(user[8])	
 
 	elif user[0] == '3':
 		if user[1:3].lower() in 'aei':
@@ -314,7 +321,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 			 
 			
 	# user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
-	param = ['trainee',62,72,2] #defaut
+	param = ['trainee',0,0,0] #defaut
 
 	if user_type in 'stagiaires':
 		param[0] = 'trainee'
@@ -472,17 +479,39 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	return user,param
 
 
-def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '):
+def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' ',debug=False):
 	if not os.path.exists(path_destination) and len(path_destination) > 2:
 		os.mkdir(path_destination[:-1])
 	user,param = get_user_config(user=user)
-	events = get_ical(param)
+
+	html = get_html_agenda(param,debug=debug)
+	parser = infoParser()
+	parser.feed(html)
+	parser.close()
+	ical =  make_calendar(parser.result)
+	ical_str = str(ical.to_ical())
+
+	print 'ical type :',type(ical)
+
+
+	if debug == True:
+		print 'Debug mode'
+
+		with open(path_destination+user+'.json','w') as f:
+			f.write(str(ical_to_json(ical)))
+			
+
+		# with open(path_destination+user+'.html','w') as f:
+		# 	f.write(html.decode("ISO-8859-2","ignore"))
+
+
+
 	with open(path_destination+user+'.ics','w') as f:
-		f.write(str(events))
+		f.write(ical_str)
 	print user,param	
 
 
-def fetch_all_ical(path_destination = 'ics/'):
+def fetch_all_ical(path_destination = 'ics/',debug = False):
 
 	# 1A et 2A
 	for annee in range(1,3):
@@ -491,7 +520,7 @@ def fetch_all_ical(path_destination = 'ics/'):
 			for td in range(1,4) :
 				i+=2
 				for tp in range(1,3):
-					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination)
+					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
 
 	# Mastere
 	for master in """esa sic madocs""".split() :
@@ -507,10 +536,11 @@ def usage():
 
 def main(argv):
 	groupe = ''
+	debug = False
 	if len(argv) < 1 :
 		usage()
 	try:
-		opts, args = getopt.getopt(argv,"hg:",["groupe="])
+		opts, args = getopt.getopt(argv,"hg:d:",["groupe","help","debug"])
 	except getopt.GetoptError,err:
 		print str(err)
 		usage()
@@ -518,16 +548,19 @@ def main(argv):
 	for opt, arg in opts:
 		if opt in ('-h','--help'): usage()
 		elif opt in ("-g", "--groupe"): groupe = arg
-
+		elif opt in ("-d", "--debug"): debug = True
+		else : 
+			usage()
+			sys.exit(2)
 
 	# if len(groupe) != 9  and groupe != 'all':
 	# 	print "Le choix '%s' est incorrect" %(groupe)
 	# 	usage()
 
 	if groupe == 'all' :
-		fetch_all_ical()
+		fetch_all_ical(debug = True)
 	else :
-		fetch_ics(user=groupe)
+		fetch_ics(user=groupe,debug = True)
 
 
 

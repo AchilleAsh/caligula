@@ -1,8 +1,8 @@
-Ce script permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel système d'agenda et ainsi intégrer les cours de l'ENSEA de façon native quelque soit votre mobile, système d'exploitation, application web préférée. Si vous ne voulez pas installer python (natif sous GNU/linux et MacOS), vous pouvez vous contenter [d'exploiter](https://github.com/show0k/caligula#exploitation-des-fichiers-ical) les fichiers iCal fournits.
+Ce script permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel système d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre mobile, système d'exploitation, application web préférée sans utiliser un nouveau programme. Si vous ne voulez pas installer python (natif sous GNU/linux et MacOS), vous pouvez vous contenter [d'utiliser](https://github.com/show0k/caligula#exploitation-des-fichiers-ical) les fichiers iCal fournits.
 
 
 ##Usage
-
+Pour générer les fichier iCal
 
 `python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
 
@@ -14,6 +14,7 @@ exemple : `python caligula.py -g all`
 
 ##Dépendances
 
+Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
 * Requests 
 * iCalendar
 
@@ -32,7 +33,7 @@ Les fichiers [iCal](http://en.wikipedia.org/wiki/ICalendar) (extension .ics) cor
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
 
-Les fichiers iCal des cours sont disponibles sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera **1G3TD2TP3.ics** et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
+Les fichiers iCal des cours sont disponibles sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera *1G3TD2TP3.ics* et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
 
 Une mise à jour tous les jours à minuit est faite sur ces fichiers à partir de caligula.ensea.fr .
 
@@ -69,10 +70,10 @@ TODO
 
 ##TODO
 
+* gestion *automatique* des id correspondants à l'emploi du temps
 * gestion des alternants, 3A, masters et enseignants
 * améliorer la gestion des parametres d'entrée pour pouvoir avoir le choix du fichier à récupérer
-* faire
-* Ajouter une interface web à la webteam
+
 
 
 ## Contact 
