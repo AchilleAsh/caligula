@@ -26,7 +26,7 @@ from HTMLParser import HTMLParser
 import urllib2
 import getopt
 import requests
-from icalendar import Calendar, Event
+from icalendar import Calendar, Event, Timezone, TimezoneStandard, TimezoneDaylight
 import pytz
 import json
 # import chardet
@@ -109,7 +109,35 @@ def dateICal(date):
 
 def make_calendar(parsed):
 	cal = Calendar()
-	cal['summary'] = "Emploi du temps de l'ENSEA"
+	# cal['summary'] = "Emploi du temps de l'ENSEA"
+	# cal['VTIMEZONE'] = Timezone()
+
+	cal.add('x-wr-calname', u"caligula.ensea.fr parser")
+	cal.add('x-wr-caldesc', u"caligula.ensea.fr parser made by Théo Segonds")
+	cal.add('x-wr-relcalid', u"12345")
+	cal.add('x-wr-timezone', u"Europe/Paris")
+
+	tzc = Timezone()
+	tzc.add('tzid', 'Europe/Paris')
+	tzc.add('x-lic-location', 'Europe/Paris')
+
+	tzs = TimezoneStandard()
+	tzs.add('tzname', 'CET')
+	tzs.add('dtstart', datetime(1970, 10, 25, 3, 0, 0))
+	tzs.add('rrule', {'freq': 'yearly', 'bymonth': 10, 'byday': '-1su'})
+	tzs.add('TZOFFSETFROM', timedelta(hours=2))
+	tzs.add('TZOFFSETTO', timedelta(hours=1))
+
+	tzd = TimezoneDaylight()
+	tzd.add('tzname', 'CEST')
+	tzd.add('dtstart', datetime(1970, 3, 29, 2, 0, 0))
+	tzs.add('rrule', {'freq': 'yearly', 'bymonth': 3, 'byday': '-1su'})
+	tzd.add('TZOFFSETFROM', timedelta(hours=1))
+	tzd.add('TZOFFSETTO', timedelta(hours=2))
+
+	tzc.add_component(tzs)
+	tzc.add_component(tzd)
+	cal.add_component(tzc)
 
 
 	for i in parsed:
@@ -129,7 +157,7 @@ def make_calendar(parsed):
 		# print end
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
-		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]
+		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]+'[...]'
 		
 		prof_lst = prof.split(" ")
 		if len(prof_lst) < 3 : prof = prof_lst[-1]+" "+" ".join(prof_lst[0:-1])
@@ -163,7 +191,8 @@ def make_calendar(parsed):
 		event = Event()
 		event.add('summary',summary)
 		event.add('location',room)
-		event.add('categories','Cours')
+		event.add('status', "confirmed")
+		event.add('category','Event')
 		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Paris")))
 		# # event['dtstart'] = dateICal(start)
 		# event.add('dtstart', datetime(start,tzinfo=pytz.timezone("Europe/Vienna")))
@@ -503,7 +532,7 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 	ical =  make_calendar(parser.result)
 	ical_str = str(ical.to_ical())
 
-	print 'ical type :',type(ical)
+	# print 'ical type :',type(ical)
 
 
 	if debug == True:
@@ -570,9 +599,9 @@ def main(argv):
 	# 	usage()
 
 	if groupe == 'all' :
-		fetch_all_ical(debug = True)
+		fetch_all_ical(debug = False)
 	else :
-		fetch_ics(user=groupe,debug = True)
+		fetch_ics(user=groupe,debug = False)
 
 
 

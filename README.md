@@ -12,6 +12,7 @@ exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
 
 exemple pour créer tous les agendas possibles : `python caligula.py -g all`
 
+
 ##Dépendances
 
 Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
@@ -33,7 +34,7 @@ Les fichiers [iCal](http://en.wikipedia.org/wiki/ICalendar) (extension .ics) cor
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
 
-Les fichiers iCal des cours sont disponibles sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera *1G3TD2TP3.ics* et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
+Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera *1G3TD2TP3.ics* et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
 
 Une mise à jour tous les jours à minuit est faite sur ces fichiers à partir de caligula.ensea.fr .
 
@@ -56,13 +57,13 @@ TODO
 ### Avec Sunbird (intégré dans Thunderbird)
 
 * Importer (ne sera pas actualisé) : Evenements et tâches > Importer > votre fichier .ics 
-* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps
+* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps ; exemple : http://showok.info/caligula/ics/2G1TD2TP4.ics
 
 ### Avec Google Calendar
 
 * Importer le fichier (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
 
-* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps
+* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps ; eexemple : http://showok.info/caligula/ics/2G1TD2TP4.ics
 
 ### Avec Apple Calendar
 
@@ -78,6 +79,6 @@ TODO
 
 ## Contact 
 
-Vous pouvez m'envoyer un mail à showok chez showok.info
+Pour toute question, bug, ou autre, vous pouvez m'envoyer un mail à showok chez showok.info
 
 
