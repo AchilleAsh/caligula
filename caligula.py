@@ -354,9 +354,9 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	elif user[0:2].lower() in 'madocs':
 		td = 'madocs'
 		option = 'mastere'
-		tp = int(user[8])
+		# tp = int(user[8])
 		if len(user)> 6:
-			tp = int(user[5])
+			tp = int(user[8])
 
 
 			 
@@ -500,7 +500,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 				elif tp == 2 : param[3] = 262
 				elif tp == 3 : param[3] = 422
 			elif td == 'madocs':
-				param[1] = 247
+				param[2] = 247
 				if tp == 1 : param[3] = 750
 				elif tp == 2 : param[3] = 748
 				elif tp == 3 : param[3] = 749
@@ -532,6 +532,7 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 	ical =  make_calendar(parser.result)
 	ical_str = str(ical.to_ical())
 
+
 	# print 'ical type :',type(ical)
 
 
@@ -546,10 +547,13 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 		# 	f.write(html.decode("ISO-8859-2","ignore"))
 
 
+	size = str(len(ical_str))+" octets"
+	# if int(size.split()[0]) < 700:
+	# 	size += '... il y a peu être une erreur'
 
 	with open(path_destination+user+'.ics','w') as f:
 		f.write(ical_str)
-	print user,param	
+	print user,param,size
 
 
 def fetch_all_ical(path_destination = 'ics/',debug = False):
