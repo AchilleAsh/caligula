@@ -112,7 +112,7 @@ def make_calendar(parsed):
 	cal = Calendar()
 
 	# Etablissement du nom de du Timezone
-	cal.add('x-wr-calname', u"caligula.ensea.fr parser by Théo Segonds")
+	cal.add('x-wr-calname', u"caligula.ensea.fr parser by Theo Segonds")
 	cal.add('x-wr-relcalid', u"12345")
 	cal.add('x-wr-timezone', u"Europe/Paris")
 
