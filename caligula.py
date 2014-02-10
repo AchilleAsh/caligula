@@ -186,7 +186,7 @@ def make_calendar(parsed):
 		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
 		event = Event()
 		event.add('summary',summary)
-		event.add('location',room+" à l'ENSEA")
+		event.add('location',room+" at ENSEA")
 		event.add('status', "confirmed")
 		event.add('category','Event')
 		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Paris")))
