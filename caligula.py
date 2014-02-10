@@ -112,7 +112,7 @@ def make_calendar(parsed):
 	cal = Calendar()
 
 	# Etablissement du nom de du Timezone
-	cal.add('x-wr-calname', u"caligula.ensea.fr parser by Theo Segonds")
+	cal.add('x-wr-calname', u"caligula.ensea.fr parser by showok (<contact at showok.info>")
 	cal.add('x-wr-relcalid', u"12345")
 	cal.add('x-wr-timezone', u"Europe/Paris")
 
@@ -163,7 +163,7 @@ def make_calendar(parsed):
 		prof_lst = prof.split(" ")
 		if len(prof_lst) < 3 : prof = prof_lst[-1]+" "+" ".join(prof_lst[0:-1])
 
-		# Si le nom est trop long (cours d'anglais), on le coupe et ajoute [...]
+		# Si le nom est trop long (comme pour les cours de langues), on le coupe et ajoute [...]
 		if len(prof) > 40 : prof = prof[:40]+'[...]'
 
 		room = i[6][:5]
@@ -173,7 +173,7 @@ def make_calendar(parsed):
 		end_ical = dateICal(end)
 		summary = "%s avec %s en %s" %(name,prof,room)
 
-		# Création d'un identifiant (uid) comme précisé dans la RFC
+		# Création d'un identifiant unique (uid) de type date_debut-date_fin@nom_du_prof comme précisé dans la RFC...
 		event_condensed_name = re.sub('[^\w]','_', "%s-%s" % (name, prof))
 		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), event_condensed_name[:10])
 
@@ -186,12 +186,10 @@ def make_calendar(parsed):
 		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
 		event = Event()
 		event.add('summary',summary)
-		event.add('location',room+" at ENSEA")
+		event.add('location',room+", ENSEA, Cergy")
 		event.add('status', "confirmed")
 		event.add('category','Event')
 		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Paris")))
-		# # event['dtstart'] = dateICal(start)
-		# event.add('dtstart', datetime(start,tzinfo=pytz.timezone("Europe/Vienna")))
 		event.add('dtend',datetime(date_end[0],date_end[1],date_end[2],hour_end[0],hour_end[1],hour_end[2],tzinfo=pytz.timezone("Europe/Paris")))
 		event["uid"] = uid
 		event.add('priority', 0)
