@@ -108,12 +108,11 @@ def dateICal(date):
 
 
 def make_calendar(parsed):
+	# Création de l'agenda
 	cal = Calendar()
-	# cal['summary'] = "Emploi du temps de l'ENSEA"
-	# cal['VTIMEZONE'] = Timezone()
 
-	cal.add('x-wr-calname', u"caligula.ensea.fr parser")
-	cal.add('x-wr-caldesc', u"caligula.ensea.fr parser made by Théo Segonds")
+	# Etablissement du nom de du Timezone
+	cal.add('x-wr-calname', u"caligula.ensea.fr parser by Théo Segonds")
 	cal.add('x-wr-relcalid', u"12345")
 	cal.add('x-wr-timezone', u"Europe/Paris")
 
@@ -157,31 +156,28 @@ def make_calendar(parsed):
 		# print end
 		
 		groups = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
-		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')[:40]+'[...]'
-		
+
+
+		prof = unicodedata.normalize('NFKD', i[5]).encode('ascii','ignore')
+		# On inverse nom et prénom pour avoir {prenom nom}
 		prof_lst = prof.split(" ")
 		if len(prof_lst) < 3 : prof = prof_lst[-1]+" "+" ".join(prof_lst[0:-1])
 
+		# Si le nom est trop long (cours d'anglais), on le coupe et ajoute [...]
+		if len(prof) > 40 : prof = prof[:40]+'[...]'
 
 		room = i[6][:5]
 		name = unicodedata.normalize('NFKD', i[3]).encode('ascii','ignore')
-
-		
-		# if len(groups) == len('2G1 TD1 2G1 TD2 2G1 TD3'):
-		# 	# groups = groups[:3]
-		# 	continue
-		# if groups == '2me ENSEA 1re A ENSEA 1re B ENSEA 3me ENSEA':
-		# 	groups = "toute l'école"
-		
 
 		start_ical = dateICal(start)
 		end_ical = dateICal(end)
 		summary = "%s avec %s en %s" %(name,prof,room)
 
+		# Création d'un identifiant (uid) comme précisé dans la RFC
 		event_condensed_name = re.sub('[^\w]','_', "%s-%s" % (name, prof))
 		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), event_condensed_name[:10])
 
-		# Pour ajouter le timezone proprement
+		# Pour ajouter le timezone proprement à chaque heure d'événements (optionel)
 		hour_start = [int(h) for h in str(start).split(" ")[1].split(':')]
 		hour_end = [int(h) for h in str(end).split(" ")[1].split(':')]
 		date_start = [int(d) for d in str(start).split(" ")[0].split('-')]
@@ -190,7 +186,7 @@ def make_calendar(parsed):
 		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
 		event = Event()
 		event.add('summary',summary)
-		event.add('location',room)
+		event.add('location',room+" à l'ENSEA")
 		event.add('status', "confirmed")
 		event.add('category','Event')
 		event.add('dtstart', datetime(date_start[0],date_start[1],date_start[2],hour_start[0],hour_start[1],hour_start[2],tzinfo=pytz.timezone("Europe/Paris")))
