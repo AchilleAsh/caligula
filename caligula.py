@@ -180,7 +180,7 @@ def make_calendar(parsed):
 		# Pour ajouter le timezone proprement à chaque heure d'événements (optionel)
 		hour_start = [int(h) for h in str(start).split(" ")[1].split(':')]
 		hour_end = [int(h) for h in str(end).split(" ")[1].split(':')]
-		date_start = [int(d) for d in str(start).split(" ")[0].split('-')]
+		date_start = [int(d) for d in str(start).split(" ")[0].split(m'-')]
 		date_end = [int(d) for d in str(end).split(" ")[0].split('-')]
 
 		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
@@ -194,7 +194,6 @@ def make_calendar(parsed):
 		event["uid"] = uid
 		event.add('priority', 0)
 		
-
 		cal.add_component(event)
 
 	return cal
@@ -219,7 +218,7 @@ class weekParser(HTMLParser):
 		if tag == "div" and self.pianoSelected:
 			self.pianoSelected = False
 
-
+# Transform un fichier iCal en JSON
 def ical_to_json(ics):
  
 	cal = ics
@@ -317,6 +316,7 @@ def get_html_agenda(param_lst,debug = True):
 
 def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	# TODO : Gerer les alternants et les profs
+	# En parsant le bon fichier, cette fonction longue serait inutile...
 	annee = td = tp = 0
 	option = ""
 	if user[1].lower() == 'g'  and user_type in 'stagiaires': #1A 2A
