@@ -1,5 +1,5 @@
 Ce programme permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel logiciel d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre système d'exploitation ou application préférée, sans utiliser un nouveau programme. 
-C'est un logiciel libre, vous pouvez utilisez ce script pour générer vous même les fichiers de calendrier (et modifier et redistribuer le script selon les termes de la licence) ou simplement utiliser les fichiers iCal fournis.
+Vous pouvez utilisez ce script pour générer vous même les fichiers de calendrier ou simplement utiliser les fichiers iCal fournis.
 
 ##Exploitation des fichiers iCal
 
