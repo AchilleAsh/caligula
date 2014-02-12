@@ -1,32 +1,5 @@
-Ce script permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel système d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre mobile, système d'exploitation, application web préférée sans utiliser un nouveau programme. Si vous ne voulez pas installer python (natif sous GNU/linux et MacOS), vous pouvez vous contenter [d'utiliser](https://github.com/show0k/caligula#exploitation-des-fichiers-ical) les fichiers iCal fournits.
-
-
-##Usage
-Pour générer les fichier iCal
-
-`python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
-
-exemple, pour créer l'agenda du groupe 1G3TD2TP3 : `python caligula.py -g 1G3TD2TP3`
-
-exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
-
-exemple pour créer tous les agendas possibles : `python caligula.py -g all`
-
-
-##Dépendances
-
-Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
-* Requests 
-* iCalendar
-
-Pour installer les dépendances, avec pip :
-
-* installer pip : `sudo apt-get install python-pip`
-
-* `pip install requests`
-
-* `pip install iCalendar`
-
+Ce programme permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel logiciel d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre système d'exploitation ou application préférée, sans utiliser un nouveau programme. 
+C'est un logiciel libre, vous pouvez utilisez ce script pour générer vous même les fichiers de calendrier (et modifier et redistribuer le script selon les termes de la licence) ou simplement utiliser les fichiers iCal fournis.
 
 ##Exploitation des fichiers iCal
 
@@ -69,16 +42,49 @@ TODO
 
 TODO
 
+
+
+
+##Usage
+Pour générer les fichier iCal
+
+`python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
+
+exemple, pour créer l'agenda du groupe 1G3TD2TP3 : `python caligula.py -g 1G3TD2TP3`
+
+exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
+
+exemple pour créer tous les agendas possibles : `python caligula.py -g all`
+
+
+##Dépendances
+Il faut d'abord installer python (natif sous les systèmes Unix comme MacOSX et GNU/Linux).
+
+Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
+* Requests 
+* iCalendar
+
+Pour installer les dépendances, avec pip :
+
+* installer pip : `sudo apt-get install python-pip`
+
+* `pip install requests`
+
+* `pip install iCalendar`
+
+
 ##TODO
 
 * gestion *automatique* des id correspondants à l'emploi du temps
 * gestion des alternants, 3A, masters et enseignants
 * améliorer la gestion des parametres d'entrée pour pouvoir avoir le choix du fichier à récupérer
 
-
-
+ 
 ## Contact 
 
 Pour toute question, bug, ou autre, vous pouvez m'envoyer un mail à showok chez showok.info
+
+## Licence
+Voir licence
 
 
