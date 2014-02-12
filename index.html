@@ -4,38 +4,42 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Caligula by show0k</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/show0k/caligula">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/show0k/caligula/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/show0k/caligula/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1>Caligula</h1>
-        <p>Export au format iCal du site de l&#39;emploi du temps de l&#39;école</p>
 
-        <p class="view"><a href="https://github.com/show0k/caligula">View the Project on GitHub <small>show0k/caligula</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/show0k/caligula/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/show0k/caligula/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/show0k/caligula">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
       <section>
-        <p>Ce script permet de récupérer l'emploi du temps de <a href="http://caligula.ensea.fr">l'école</a> au format standard iCal</p>
+        <div id="title">
+          <h1>Caligula</h1>
+          <p>Export au format iCal du site de l&#39;emploi du temps de l&#39;école</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/show0k">show0k</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
-
-<p><code>caligula.py -g &lt;groupe de TD TP&gt;</code></p>
-
-<p>exemple : <code>caligula.py -g 2G1TD1TP1</code></p>
+        <p>Ce programme permet de récupérer l'emploi du temps de <a href="http://caligula.ensea.fr">caligula</a> au format standard <a href="http://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel logiciel d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre système d'exploitation ou application préférée, sans utiliser un nouveau programme. 
+Vous pouvez utilisez ce script pour générer vous même les fichiers de calendrier ou simplement utiliser les fichiers iCal fournis.</p>
 
 <h2>
 <a name="exploitation-des-fichiers-ical" class="anchor" href="#exploitation-des-fichiers-ical"><span class="octicon octicon-link"></span></a>Exploitation des fichiers iCal</h2>
@@ -45,9 +49,9 @@
 <ul>
 <li>Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda</li>
 <li>Synchroniser votre agenda avec l'url complete du fichier .ics</li>
-</ul><p>Les fichiers iCal des cours sont disponibles sur <a href="http://showok.info/caligula/ics">http://showok.info/caligula/ics</a>. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 2G1TD1TP1 le fichier d'emploi du temps sera <strong>2G1TD1TP1.ics</strong> et sera téléchargeable (et synchronisable) sur <a href="http://showok.info/caligula/ics/2G1TD1TP1.ics">http://showok.info/caligula/ics/2G1TD1TP1.ics</a></p>
+</ul><p>Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur <a href="http://showok.info/caligula/ics">http://showok.info/caligula/ics</a>. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera <em>1G3TD2TP3.ics</em> et sera téléchargeable (et synchronisable) sur <a href="http://showok.info/caligula/ics/1G3TD2TP3.ics">http://showok.info/caligula/ics/1G3TD2TP3.ics</a></p>
 
-<p>Une mise à jour tous les jours à minuit est faite sur ces fichiers à partir de caligula.ensea.fr .</p>
+<p>Une mise à jour tous les jours est faite sur ces fichiers à partir de caligula.ensea.fr .</p>
 
 <h3>
 <a name="sur-android" class="anchor" href="#sur-android"><span class="octicon octicon-link"></span></a>Sur android</h3>
@@ -57,12 +61,12 @@
 <h4>
 <a name="avec-un-compte-google" class="anchor" href="#avec-un-compte-google"><span class="octicon octicon-link"></span></a>Avec un compte Google</h4>
 
-<p>Le plus simple est d'utiliser un compte google pour synchroniser ses contacts ; suivre la rubrique 'Avec Google Calendar'.</p>
+<p>Vous pouvez utiliser un compte google pour synchroniser ses contacts ; suivre la rubrique 'Avec Google Calendar'.</p>
 
 <h4>
 <a name="sans-compte-google" class="anchor" href="#sans-compte-google"><span class="octicon octicon-link"></span></a>Sans compte google</h4>
 
-<p>L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisation <a href="http://fr.wikipedia.org/wiki/CalDAV">CalDav</a> ; il faut donc installer une <a href="https://play.google.com/store/apps/details?id=org.kc.and.ical&amp;hl=fr">application tierce</a> qui permet de faire la synchronisation.</p>
+<p>L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisation <a href="http://fr.wikipedia.org/wiki/CalDAV">CalDav</a> ; il faut donc installer une <a href="https://play.google.com/store/apps/details?id=org.kc.and.ical&amp;hl=fr">application tierce</a> qui permet de faire la synchronisation. C'est tout aussi simple que de passer par Google Calendar, et ça fera une chose de moins que google aura de vous.</p>
 
 <h3>
 <a name="sur-ios" class="anchor" href="#sur-ios"><span class="octicon octicon-link"></span></a>Sur iOS</h3>
@@ -74,54 +78,64 @@
 
 <ul>
 <li>Importer (ne sera pas actualisé) : Evenements et tâches &gt; Importer &gt; votre fichier .ics </li>
-<li>Synchroniser : Agenda &gt; Nouvel agenda &gt; Sur le réseau &gt; format iCalendar &gt; url correspondant à votre emploi du temps</li>
+<li>Synchroniser : Agenda &gt; Nouvel agenda &gt; Sur le réseau &gt; format iCalendar &gt; url correspondant à votre emploi du temps ; exemple : <a href="http://showok.info/caligula/ics/2G1TD2TP4.ics">http://showok.info/caligula/ics/2G1TD2TP4.ics</a>
+</li>
 </ul><h3>
 <a name="avec-google-calendar" class="anchor" href="#avec-google-calendar"><span class="octicon octicon-link"></span></a>Avec Google Calendar</h3>
 
 <ul>
-<li><p>Importer (ne sera pas actualisé) :  <a href="https://www.google.com/calendar/render">https://www.google.com/calendar/render</a> &gt; Mes agendas &gt; parametres &gt; importer l'agenda &gt; votre fichier .ics </p></li>
-<li><p>Synchroniser : <a href="https://www.google.com/calendar/render">https://www.google.com/calendar/render</a> &gt; Autres agenda &gt; ajouter par url &gt; url correspondant à votre emploi du temps</p></li>
+<li><p>Importer le fichier (ne sera pas actualisé) :  <a href="https://www.google.com/calendar/render">https://www.google.com/calendar/render</a> &gt; Mes agendas &gt; parametres &gt; importer l'agenda &gt; votre fichier .ics </p></li>
+<li><p>Synchroniser : <a href="https://www.google.com/calendar/render">https://www.google.com/calendar/render</a> &gt; Autres agenda &gt; ajouter par url &gt; url correspondant à votre emploi du temps ; eexemple : <a href="http://showok.info/caligula/ics/2G1TD2TP4.ics">http://showok.info/caligula/ics/2G1TD2TP4.ics</a></p></li>
 </ul><h3>
 <a name="avec-apple-calendar" class="anchor" href="#avec-apple-calendar"><span class="octicon octicon-link"></span></a>Avec Apple Calendar</h3>
 
 <p>TODO</p>
 
 <h2>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+<a name="utilisation-du-script-optionel" class="anchor" href="#utilisation-du-script-optionel"><span class="octicon octicon-link"></span></a>Utilisation du script (optionel)</h2>
 
-<ul>
-<li>Configurer la timezone avec VTIMEZONE </li>
-<li>gestion des alternants, 3A, masters et enseignants</li>
-<li>Interfacer avec <a href="http://radicale.org/">radicale</a> pour gérer le protocle CalDav plus approprié.</li>
-<li>Ajouter une interface web</li>
-</ul><h2>
-<a name="d%C3%A9pendances" class="anchor" href="#d%C3%A9pendances"><span class="octicon octicon-link"></span></a>Dépendances</h2>
+<p>Si vous voulez générer <em>vous même</em> les fichiers iCal ; il vous faut utiliser le script nommé caligula.py</p>
+
+<h3>
+<a name="d%C3%A9pendances" class="anchor" href="#d%C3%A9pendances"><span class="octicon octicon-link"></span></a>Dépendances</h3>
+
+<p>Il faut d'abord installer python (natif sous les systèmes Unix comme MacOSX et GNU/Linux).</p>
+
+<p>Les deux librairies python ci-dessous ne sont pas dans le package par défault. </p>
 
 <ul>
 <li>Requests </li>
 <li>iCalendar</li>
-</ul><p>Pour installer les dépendances, avec pip :</p>
+</ul><p>Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplancer pip pareasy_install ci dessous) :</p>
 
 <ul>
 <li><p>installer pip : <code>sudo apt-get install python-pip</code></p></li>
 <li><p><code>pip install requests</code></p></li>
 <li><p><code>pip install iCalendar</code></p></li>
-</ul><h2>
-<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
+</ul><h3>
+<a name="coment-lutiliser-" class="anchor" href="#coment-lutiliser-"><span class="octicon octicon-link"></span></a>Coment l'utiliser :</h3>
 
-<p>Vous pouvez m'envoyer un mail à showok chez showok.info</p>
+<p><code>python caligula.py -g &lt;Groupe de la forme _G_TD_TP_ &gt;</code></p>
+
+<p>exemple, pour créer l'agenda du groupe 1G3TD2TP3 : <code>python caligula.py -g 1G3TD2TP3</code></p>
+
+<p>exemple, pour créer l'agenda du groupe ESATP3 : <code>python caligula.py -g ESATP3</code></p>
+
+<p>exemple pour créer tous les agendas possibles : <code>python caligula.py -g all</code></p>
 
 <h2>
-<a name="cr%C3%A9dits" class="anchor" href="#cr%C3%A9dits"><span class="octicon octicon-link"></span></a>Crédits</h2>
+<a name="contact" class="anchor" href="#contact"><span class="octicon octicon-link"></span></a>Contact</h2>
 
-<p>Sheep : <a href="Chronos">https://github.com/sheep/Chronos</a></p>
+<p>Pour toute question, bug, ou autre, vous pouvez m'envoyer un mail à showok chez showok.info</p>
+
+<h2>
+<a name="licence" class="anchor" href="#licence"><span class="octicon octicon-link"></span></a>Licence</h2>
+
+<p>Voir <a href="https://github.com/show0k/caligula/blob/master/LICENCE">licence</a></p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/show0k">show0k</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
