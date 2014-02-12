@@ -9,7 +9,7 @@ Les fichiers [iCal](http://en.wikipedia.org/wiki/ICalendar) (extension .ics) cor
 
 Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera *1G3TD2TP3.ics* et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
 
-Une mise à jour tous les jours à minuit est faite sur ces fichiers à partir de caligula.ensea.fr .
+Une mise à jour tous les jours est faite sur ces fichiers à partir de caligula.ensea.fr .
 
 ### Sur android
 
@@ -45,8 +45,27 @@ TODO
 
 
 
-##Usage
-Pour générer les fichier iCal
+##Utilisation du script (optionel)
+Si vous voulez générer *vous même* les fichiers iCal ; il vous faut utiliser le script nommé caligula.py
+
+
+### Dépendances
+Il faut d'abord installer python (natif sous les systèmes Unix comme MacOSX et GNU/Linux).
+
+Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
+* Requests 
+* iCalendar
+
+Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplancer pip pareasy_install ci dessous) :
+
+* installer pip : `sudo apt-get install python-pip`
+
+* `pip install requests`
+
+* `pip install iCalendar`
+
+### Coment l'utiliser :
+
 
 `python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
 
@@ -57,34 +76,11 @@ exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
 exemple pour créer tous les agendas possibles : `python caligula.py -g all`
 
 
-##Dépendances
-Il faut d'abord installer python (natif sous les systèmes Unix comme MacOSX et GNU/Linux).
-
-Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
-* Requests 
-* iCalendar
-
-Pour installer les dépendances, avec pip :
-
-* installer pip : `sudo apt-get install python-pip`
-
-* `pip install requests`
-
-* `pip install iCalendar`
-
-
-##TODO
-
-* gestion *automatique* des id correspondants à l'emploi du temps
-* gestion des alternants, 3A, masters et enseignants
-* améliorer la gestion des parametres d'entrée pour pouvoir avoir le choix du fichier à récupérer
-
- 
 ## Contact 
 
 Pour toute question, bug, ou autre, vous pouvez m'envoyer un mail à showok chez showok.info
 
 ## Licence
-Voir licence
+Voir [licence](https://github.com/show0k/caligula/blob/master/LICENCE)
 
 

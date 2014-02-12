@@ -1,2 +1,3 @@
 * Changer HTMLParser par LXML
 * Récupération automatique des id ce qui permettrait de gérer tout le personnel de l'ENSEA.
+* Améliorer la gestion des paramettres d'entrée
