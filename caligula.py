@@ -113,7 +113,6 @@ def make_calendar(parsed):
 
 	# Etablissement du nom de du Timezone
 	cal.add('x-wr-calname', u"caligula.ensea.fr parser by showok (<contact at showok.info>")
-	# cal.add('x-wr-calname', u"caligula.ensea.fr parser by showok (<contact at showok.info>")
 	cal.add('x-wr-relcalid', u"12345")
 	cal.add('x-wr-timezone', u"Europe/Paris")
 
@@ -181,7 +180,7 @@ def make_calendar(parsed):
 		# Pour ajouter le timezone proprement à chaque heure d'événements (optionel)
 		hour_start = [int(h) for h in str(start).split(" ")[1].split(':')]
 		hour_end = [int(h) for h in str(end).split(" ")[1].split(':')]
-		date_start = [int(d) for d in str(start).split(" ")[0].split(m'-')]
+		date_start = [int(d) for d in str(start).split(" ")[0].split('-')]
 		date_end = [int(d) for d in str(end).split(" ")[0].split('-')]
 
 		# Le fichier de sortie ne doit pas dépasser 75 caractères par ligne 
@@ -296,8 +295,7 @@ def get_html_agenda(param_lst,debug = True):
 	url = "%s?%s&reset=true" % (bounds, week)
 	result = s.get(url)
 
-	with open('html.html','w') as f:
-		f.write(str(result))
+
 	for i in range(1, nbw - 1):
 		week = "week=%i" % (nweek + i) #nweek - i pour avoir juste les semaines restantes
 		url = "%s?%s&reset=false" % (bounds, week)
@@ -307,6 +305,9 @@ def get_html_agenda(param_lst,debug = True):
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
 	result = s.get(url)
 
+	# with open('html.html','w') as f:
+	# 	f.write(str(result))
+
 
 	content = result.content.decode("ISO-8859-2","ignore")
 	# encoding = chardet.detect(content)['encoding']
@@ -315,6 +316,8 @@ def get_html_agenda(param_lst,debug = True):
 	return content
 	
 
+
+# Fournit les identifiants en fonction des groupes de TPTD : à faire par le parser
 def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	# TODO : Gerer les alternants et les profs
 	# En parsant le bon fichier, cette fonction longue serait inutile...
@@ -515,7 +518,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	return user,param
 
 
-def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' ',debug=False):
+def fetch_ical(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' ',debug=False):
 	if not os.path.exists(path_destination) and len(path_destination) > 2:
 		os.mkdir(path_destination[:-1])
 	user,param = get_user_config(user=user)
@@ -538,8 +541,9 @@ def fetch_ics(user_type = 'stagiaires',user = '2G1TD1TP1',path_destination = ' '
 			f.write(str(ical_to_json(ical)))
 			
 
-		# with open(path_destination+user+'.html','w') as f:
-		# 	f.write(html.decode("ISO-8859-2","ignore"))
+		with open(path_destination+user+'.html','w') as f:
+			f.write(html.encode('ISO-8859-2'))
+			# f.write(html.decode("ISO-8859-2","ignore"))
 
 
 	size = str(len(ical_str))+" octets"
@@ -560,12 +564,12 @@ def fetch_all_ical(path_destination = 'ics/',debug = False):
 			for td in range(1,4) :
 				i+=2
 				for tp in range(1,3):
-					fetch_ics(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
+					fetch_ical(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
 
 	# Mastere
 	for master in """esa sic madocs""".split() :
 		for tp in range (1,4):
-			fetch_ics(user= "%sTP%s" %(master,tp),path_destination=path_destination)
+			fetch_ical(user= "%sTP%s" %(master,tp),path_destination=path_destination)
 
 
 def usage():
@@ -598,9 +602,9 @@ def main(argv):
 	# 	usage()
 
 	if groupe == 'all' :
-		fetch_all_ical(debug = False)
+		fetch_all_ical(debug = debug)
 	else :
-		fetch_ics(user=groupe,debug = False)
+		fetch_ical(user=groupe,debug = debug)
 
 
 
