@@ -1,5 +1,6 @@
 BEGIN:VCALENDAR
-X-WR-CALNAME:caligula.ensea.fr parser by showok (<contact at showok.info>
+X-WR-CALDESC:by showok\, send problems to <contact at showok.info>
+X-WR-CALNAME:caligula.ensea.fr parser
 X-WR-RELCALID:12345
 X-WR-TIMEZONE:Europe/Paris
 BEGIN:VTIMEZONE
@@ -1262,7 +1263,7 @@ PRIORITY:0
 STATUS:confirmed
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Echantillonnage et systcmes discrets avec Samer Riachy en A112
+SUMMARY:Echantillonnage et systcmes discrets avec Sophie Olijnyk en A112
 DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140516T130000
 DTEND;TZID=Europe/Paris;VALUE=DATE-TIME:20140516T150000
 UID:20140516T130000-20140516T150000@Echantillo

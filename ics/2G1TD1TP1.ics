@@ -1,5 +1,6 @@
 BEGIN:VCALENDAR
-X-WR-CALNAME:caligula.ensea.fr parser by showok (<contact at showok.info>
+X-WR-CALDESC:by showok\, send problems to <contact at showok.info>
+X-WR-CALNAME:caligula.ensea.fr parser
 X-WR-RELCALID:12345
 X-WR-TIMEZONE:Europe/Paris
 BEGIN:VTIMEZONE
@@ -20,16 +21,6 @@ TZOFFSETFROM:+0100
 TZOFFSETTO:+0200
 END:DAYLIGHT
 END:VTIMEZONE
-BEGIN:VEVENT
-SUMMARY:Management avec Sandrine Monfort en Amphi
-DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140210T080000
-DTEND;TZID=Europe/Paris;VALUE=DATE-TIME:20140210T100000
-UID:20140210T080000-20140210T100000@Management
-CATEGORY:Event
-LOCATION:Amphi\, ENSEA\, Cergy
-PRIORITY:0
-STATUS:confirmed
-END:VEVENT
 BEGIN:VEVENT
 SUMMARY:Transmissions avec Carine Sabouraud-Muller en Amphi
 DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140210T100000
@@ -214,7 +205,7 @@ PRIORITY:0
 STATUS:confirmed
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Probabilites-Statistiques avec Adeline Augier en A07
+SUMMARY:Probabilites-Statistiques avec Randrianarivo  en A07
 DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140305T100000
 DTEND;TZID=Europe/Paris;VALUE=DATE-TIME:20140305T120000
 UID:20140305T100000-20140305T120000@Probabilit
@@ -336,7 +327,7 @@ PRIORITY:0
 STATUS:confirmed
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Probabilites-Statistiques avec Adeline Augier en A07
+SUMMARY:Probabilites-Statistiques avec Randrianarivo  en A07
 DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140312T100000
 DTEND;TZID=Europe/Paris;VALUE=DATE-TIME:20140312T120000
 UID:20140312T100000-20140312T120000@Probabilit
@@ -569,7 +560,7 @@ PRIORITY:0
 STATUS:confirmed
 END:VEVENT
 BEGIN:VEVENT
-SUMMARY:Probabilites-Statistiques avec Adeline Augier en A07
+SUMMARY:Probabilites-Statistiques avec Randrianarivo  en A07
 DTSTART;TZID=Europe/Paris;VALUE=DATE-TIME:20140326T100000
 DTEND;TZID=Europe/Paris;VALUE=DATE-TIME:20140326T120000
 UID:20140326T100000-20140326T120000@Probabilit
