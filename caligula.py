@@ -11,6 +11,10 @@
   # in return Théo Segonds
   # ----------------------------------------------------------------------------
  
+# Modified by MGK from https://github.com/show0k/caligula/blob/master/caligula.py
+#
+# Conformément aux instructions données sur https://github.com/show0k/caligula/blob/master/README.md ,
+# il est nécessaire d'installer python et les librairies "Requests" et "iCalendar". Elles sont installables par exemple avec l'outil PIP.
 
 import os
 import sys 
@@ -147,12 +151,23 @@ def make_calendar(parsed):
 		if len(i) < 7:
 			continue
 		start = datetime.strptime("%s %s" % (i[0], i[1]), "%d/%m/%Y %H:%M")
-		# print  start
+		
+		if start.hour == 10:
+			start = start + timedelta(minutes = 10)
+		elif start.hour == 13:
+			start = start + timedelta(minutes = 15)
+		elif start.hour == 15:
+			start = start + timedelta(minutes = 25)
+
 		if re.match("^\d{1,2}h$", i[2]):
 			delta = datetime.strptime(i[2], "%Hh")
 
 		else: # /30min/
 			delta = datetime.strptime(i[2], "%Mmin")
+
+		if delta.hour == 2:
+			delta = delta - timedelta(minutes = 10)
+
 		end = start + timedelta(hours = delta.hour, minutes = delta.minute)
 		# print end
 		
@@ -298,18 +313,18 @@ def get_html_agenda(param_lst,debug = True):
 
 
 	for i in range(1, nbw - 1):
-		week = "week=%i" % (nweek + i) #nweek - i pour avoir juste les semaines restantes
+		# DEBUG :	
+		week = "week=%i" % i  #(i+nweek) pour avoir juste les semaines restantes ou i pour avoir tout
 		url = "%s?%s&reset=false" % (bounds, week)
 		result = s.get(url)
+
 	 
 	# Retrieve the content and parse it
 	url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
 	result = s.get(url)
 
-	# with open('html.html','w') as f:
-	# 	f.write(str(result))
 
-
+	#Encoding is not present on the page charset... I found it thanks to the chardet module
 	content = result.content.decode("ISO-8859-2","ignore")
 	# encoding = chardet.detect(content)['encoding']
 	# print 'encoding',encoding
