@@ -166,9 +166,14 @@ def make_calendar(parsed):
 		elif re.match("^\d{1,2}h\d\dmin$", i[2]): # 2h30min
 			delta = datetime.strptime(i[2], "%Hh%Mmin")
 
-		else: # 30min
+		elif re.match("^\d\dmin$", i[2]): # 30min, never trust input datas
 			delta = datetime.strptime(i[2], "%Mmin")
 
+		else :
+			print "I don't know how to parse this time... "
+			raise NameError(i[2])
+
+			
 		if delta.hour == 2:
 			delta = delta - timedelta(minutes = 10)
 
