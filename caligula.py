@@ -152,6 +152,7 @@ def make_calendar(parsed):
 			continue
 		start = datetime.strptime("%s %s" % (i[0], i[1]), "%d/%m/%Y %H:%M")
 		
+		# Ajout par MGK pour faire correspondre aux horaires de l'ENSEA : 8h-9h50-10h10-12h-13h15-15h05-15h25-17h15
 		if start.hour == 10:
 			start = start + timedelta(minutes = 10)
 		elif start.hour == 13:
@@ -162,7 +163,10 @@ def make_calendar(parsed):
 		if re.match("^\d{1,2}h$", i[2]):
 			delta = datetime.strptime(i[2], "%Hh")
 
-		else: # /30min/
+		elif re.match("^\d{1,2}h\d\dmin$", i[2]): # 2h30min
+			delta = datetime.strptime(i[2], "%Hh%Mmin")
+
+		else: # 30min
 			delta = datetime.strptime(i[2], "%Mmin")
 
 		if delta.hour == 2:
