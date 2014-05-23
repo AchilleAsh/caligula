@@ -65,6 +65,7 @@ Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplance
 * `pip install iCalendar`
 
 ### Coment l'utiliser :
+
 ```
 caligula.py <options> -l <login de caligula.ensea.fr>
 
