@@ -66,15 +66,18 @@ Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplance
 
 ### Coment l'utiliser :
 
+caligula.py <options> -l <login de caligula.ensea.fr>
 
-`python caligula.py -g <Groupe de la forme _G_TD_TP_ > `
+Options:
+-s --search 	partie du nom de prof, groupe de TD ou salle
+exemple 1 : caligula.py -s guerquin -l login
+exemple 2 : caligula.py -s C104 -l login
+exemple 3 : caligula.py -s '1G1 TP3' -l login
 
-exemple, pour créer l'agenda du groupe 1G3TD2TP3 : `python caligula.py -g 1G3TD2TP3`
-
-exemple, pour créer l'agenda du groupe ESATP3 : `python caligula.py -g ESATP3`
-
-exemple pour créer tous les agendas possibles : `python caligula.py -g all`
-
+-g --groupe 	groupe complet avec la syntaxe GxTDxTPx
+			all extraira tous les groupes
+exemple : caligula.py -g 2G1TD1TP1 -l login
+exemple : caligula.py -g all -l login
 
 ## Contact 
 
