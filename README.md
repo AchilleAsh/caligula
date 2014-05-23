@@ -65,7 +65,7 @@ Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplance
 * `pip install iCalendar`
 
 ### Coment l'utiliser :
-
+```
 caligula.py <options> -l <login de caligula.ensea.fr>
 
 Options:
@@ -78,6 +78,7 @@ exemple 3 : caligula.py -s '1G1 TP3' -l login
 			all extraira tous les groupes
 exemple : caligula.py -g 2G1TD1TP1 -l login
 exemple : caligula.py -g all -l login
+```
 
 ## Contact 
 
