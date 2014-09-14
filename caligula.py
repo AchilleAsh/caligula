@@ -1,20 +1,18 @@
 #!/usr/bin/python
 # -*-coding:Utf-8 -*
 
+"""
+ "THE BEER-WARE LICENSE" (Revision 42):
+  <showok@showok.info> wrote this file from the original work of
+  <anthony.perard@gmail.com> : https://github.com/sheep/Chronos.
+  As long as you retain this notice you  can do whatever you want with this stuff.
+  If we meet some day, and you think this stuff is worth it, you can buy me a beer in return.
+  Théo Segonds
 
-  # ----------------------------------------------------------------------------
-  # "THE BEER-WARE LICENSE" (Revision 42):
-  # <showok@showok.info> wrote this file from the original work of
-  # <anthony.perard@gmail.com> : https://github.com/sheep/Chronos.
-  # As long as you retain this notice you  can do whatever you want with this stuff.
-  # If we meet some day, and you think this stuff is worth it, you can buy me a beer
-  # in return Théo Segonds
-  # ----------------------------------------------------------------------------
 
-# Modified by MGK from https://github.com/show0k/caligula/blob/master/caligula.py
-#
-# Conformément aux instructions données sur https://github.com/show0k/caligula/blob/master/README.md ,
-# il est nécessaire d'installer python et les librairies "Requests" et "iCalendar". Elles sont installables par exemple avec l'outil PIP.
+  Il faut installer les dépendances requests et iCalendar avec pip
+
+"""
 
 import os
 import sys
