@@ -610,7 +610,7 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 	return user,param
 
 
-def fetch_ical(param, user, path_destination = ' ',debug=False):
+def fetch_ical(param, user, path_destination = '',debug=False):
 	"""
 	Récupère l'agenda lié à un élément de la base (ne convient pas pour
 	les groupes de TD qui sont des branches, pas des items)
@@ -628,6 +628,8 @@ def fetch_ical(param, user, path_destination = ' ',debug=False):
 		ical =  make_calendar(parser.result,pourProf=False)
 
 	ical_str = str(ical.to_ical())
+	if ical_str[0] == " ":
+		ical_str = ical_str[1:]
 
 	if debug == True:
 		print 'Debug mode'
