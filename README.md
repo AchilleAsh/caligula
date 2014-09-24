@@ -71,14 +71,14 @@ caligula.py <options> -l <login de caligula.ensea.fr>
 
 Options:
 -s --search 	partie du nom de prof, groupe de TD ou salle
-exemple 1 : caligula.py -s guerquin -l login
-exemple 2 : caligula.py -s C104 -l login
-exemple 3 : caligula.py -s '1G1 TP3' -l login
+exemple 1 : python caligula.py -s guerquin -l login
+exemple 2 : python caligula.py -s C104 -l login
+exemple 3 : python caligula.py -s '1G1 TP3' -l login
 
 -g --groupe 	groupe complet avec la syntaxe GxTDxTPx
 			all extraira tous les groupes
-exemple : caligula.py -g 2G1TD1TP1 -l login
-exemple : caligula.py -g all -l login
+exemple : python caligula.py -g 2G1TD1TP1 -l login
+exemple : python caligula.py -g all -l login
 ```
 
 ## Contact 
