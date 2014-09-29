@@ -186,6 +186,10 @@ class infoParser(HTMLParser):
 						self.current_row.append("TP")
 					elif self.parser.result.lower().find("contrôle")>=0:
 						self.current_row.append("Contrôle")
+					elif self.parser.result.lower().find("SIC")>=0:
+						self.current_row.append("SIC")
+					elif self.parser.result.lower().find("ESA")>=0:
+						self.current_row.append("ESA")
 
 	def handle_endtag(self, tag):
 		if tag == "table":
@@ -607,6 +611,29 @@ def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
 
 	return user,param
 
+########
+## A supprimer
+########
+
+def fetch_all_ical(path_destination = 'ics/',debug = False):
+	"""
+	Récupère les agendas de tous les groupes d'élèves
+	"""
+
+	# 1A et 2A
+	for annee in range(1,3):
+		for groupe in range(1,4) :
+			i = -2
+			for td in range(1,4) :
+				i+=2
+				for tp in range(1,3):
+					fetch_ical(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
+
+	# Mastere
+	for master in """esa sic madocs""".split() :
+		for tp in range (1,4):
+			fetch_ical(user= "%sTP%s" %(master,tp),path_destination=path_destination)
+
 
 def fetch_ical(param, user, path_destination = '',debug=False):
 	"""
@@ -646,25 +673,6 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
 		f.write(ical_str)
 	print user,param,size
-
-def fetch_all_ical(path_destination = 'ics/',debug = False):
-	"""
-	Récupère les agendas de tous les groupes d'élèves
-	"""
-
-	# 1A et 2A
-	for annee in range(1,3):
-		for groupe in range(1,4) :
-			i = -2
-			for td in range(1,4) :
-				i+=2
-				for tp in range(1,3):
-					fetch_ical(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
-
-	# Mastere
-	for master in """esa sic madocs""".split() :
-		for tp in range (1,4):
-			fetch_ical(user= "%sTP%s" %(master,tp),path_destination=path_destination)
 
 
 def search_item(name):
@@ -711,6 +719,32 @@ def search_item(name):
 	print "%s %s with ID %s" % (param_lst[0],user,param_lst[3])
 	return user,param_lst
 
+def fetch_from_search(name):
+	user,param = search_item(name)
+	fetch_ical(param=param,user=user,debug = False)
+
+def worker(q,name):
+	q.put(fetch_from_search(name))
+
+
+def search_from_file(filename):
+	"""
+	Implémente la recherche à partir d'un fichier afin de télécharger un grand nombre d'agendas d'un coup
+	"""
+	import Queue
+	import threading
+	q = Queue.Queue()
+	with open(filename, "r") as f:
+		for line in f:
+			if line is not "\n" :
+				fetch_from_search(line[:-1])
+				# t = threading.Thread(target=worker, args = (q,line[:-1]))
+				# t.daemon = True
+				# t.start()
+		# s = q.get()
+		# print s
+
+
 def usage():
 
 	print 'Usage : '
@@ -734,11 +768,12 @@ def main(argv):
 	global login
 	groupe = ''
 	search = ''
+	file = ''
 	debug = False
 	if len(argv) < 1 :
 		usage()
 	try:
-		opts, args = getopt.getopt(argv,"hg:d:s:l:",["groupe","help","debug","search","login"])
+		opts, args = getopt.getopt(argv,"hg:d:s:l:f:",["groupe","help","debug","search","login","file"])
 	except getopt.GetoptError,err:
 		print str(err)
 		usage()
@@ -749,6 +784,7 @@ def main(argv):
 		elif opt in ("-d", "--debug"): debug = True
 		elif opt in ("-s", "--search"): search = arg
 		elif opt in ("-l", "--login"): login = arg
+		elif opt in ("-f", "--file"): file = arg
 		else :
 			usage()
 			sys.exit(2)
@@ -771,7 +807,10 @@ def main(argv):
 			fetch_ical(param=param,user=user,debug = debug)
 	if not(search is ""):
 		user,param = search_item(search)
+		# print "user %s, param : %s" %(user,param)
 		fetch_ical(param=param,user=user,debug = debug)
+	if not(file is ""):
+		search_from_file(file)
 
 	sys.exit(2)
 
