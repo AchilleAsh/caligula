@@ -278,8 +278,11 @@ def make_calendar(parsed,pourProf=False):
 		room = i[7][:5]
 
 		name = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
+		name = re.sub(u'ŕ',u"à",name)
 
-		typeevent = i[3]
+		typeevent = re.sub(u'ŕ',u"à",i[3])
+		print typeevent
+		# typeevent =  unicodedata.normalize('NFKD', i[3]).encode('Utf-8','ignore')
 		if typeevent == "TP" and name.lower().find("projet")>=0:
 			typeevent = ""
 
@@ -291,7 +294,14 @@ def make_calendar(parsed,pourProf=False):
 			else:
 				summary = "%s avec %s en %s" %(name,groups,room)
 		else:
-			summary = "%s avec %s en %s" %(name,prof,room)
+			if len(typeevent)>0:
+				if len(typeevent)>6:
+					summary = "%s avec %s en %s" %(typeevent,prof,room)
+				else :
+					summary = "%s de %s avec %s en %s" %(typeevent, name,prof,room)
+			else :
+				summary = "%s avec %s en %s" %(name,prof,room)
+
 
 		uid =  "%s-%s@%s" % (dateICal(start),dateICal(end), room) #event_condensed_name[:10])
 
@@ -548,7 +558,7 @@ def main(argv):
 	global login
 	search = ''
 	file = ''
-	debug = False
+	debug = True
 	if len(argv) < 1 :
 		usage()
 	try:

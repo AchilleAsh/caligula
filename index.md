@@ -41,7 +41,6 @@ L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisat
 Avec Google calendar, c'est comme sur android.
 
 
-
 ## Contact 
 
 Pour toute question, bug, ou autre, vous pouvez m'envoyer un mail à showok chez showok.info
