@@ -450,7 +450,6 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 	if param[0] == 'instructor':
 		# On ne garde que les 4 premier caracteres pour "annonymiser" le nom des profs
 		usr_lst = [l[:4] for l in user.split()]
-		print usr_lst
 		user = '_'.join(usr_lst)
 
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
