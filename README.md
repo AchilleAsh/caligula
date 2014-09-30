@@ -7,7 +7,7 @@ Les fichiers [iCal](http://en.wikipedia.org/wiki/ICalendar) (extension .ics) cor
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
 
-Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur http://caligula.showok.info/ics . 
+Vous pouvez générer vous même les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré sur http://caligula.showok.info/ics/ . 
 
 Une mise à jour tous les jours est faite sur ces fichiers à partir de caligula.ensea.fr .
 
@@ -30,13 +30,13 @@ TODO
 ### Avec Sunbird (intégré dans Thunderbird)
 
 * Importer (ne sera pas actualisé) : Evenements et tâches > Importer > votre fichier .ics 
-* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps ; exemple : http://showok.info/caligula/ics/2G1TD2TP4.ics
+* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps ; exemple : http://caligula.showok.info/ics/2G1_TP4.ics
 
 ### Avec Google Calendar
 
 * Importer le fichier (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
 
-* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps ; eexemple : http://showok.info/caligula/ics/2G1TD2TP4.ics
+* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps ; eexemple :  http://caligula.showok.info/ics/2G1_TP4.ics
 
 ### Avec Apple Calendar
 
