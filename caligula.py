@@ -447,6 +447,11 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 	size = str(len(ical_str))+" octets"
 	# if int(size.split()[0]) < 700:
 	# 	size += '... il y a peut-être une erreur'
+	if param[0] == 'instructor':
+		# On ne garde que les 4 premier caracteres pour "annonymiser" le nom des profs
+		usr_lst = [l[:4] for l in user.split()]
+		print usr_lst
+		user = '_'.join(usr_lst)
 
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
 		f.write(ical_str)
@@ -477,7 +482,7 @@ def search_item(name):
 	parser = branchParser()
 	parser.itemsID = []
 	parser.itemsNames = []
-	parser.feed(s.content)
+	parser.feed(s.content.decode("ISO-8859-2","ignore"))
 	parser.close()
 	if len(parser.itemsID)==0: # si aucun résultat n'est trouvé
 		print "%s ne correspond à aucune donnée de la base" % name
