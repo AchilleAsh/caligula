@@ -371,7 +371,6 @@ def get_html_agenda(param_lst,debug = True):
 
 	if param_lst[0] not in '' :
 		category = "category=%s" % param_lst[0]
-		print category
 		url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
 		r = s.get(url)
 
@@ -557,7 +556,7 @@ def main(argv):
 	global login
 	search = ''
 	file = ''
-	debug = True
+	debug = False
 	if len(argv) < 1 :
 		usage()
 	try:
