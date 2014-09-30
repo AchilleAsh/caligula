@@ -281,7 +281,6 @@ def make_calendar(parsed,pourProf=False):
 		name = re.sub(u'ŕ',u"à",name)
 
 		typeevent = re.sub(u'ŕ',u"à",i[3])
-		print typeevent
 		# typeevent =  unicodedata.normalize('NFKD', i[3]).encode('Utf-8','ignore')
 		if typeevent == "TP" and name.lower().find("projet")>=0:
 			typeevent = ""
