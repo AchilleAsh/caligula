@@ -1,5 +1,5 @@
+# Caligula Parser
 Ce programme permet de récupérer l'emploi du temps de [caligula](http://caligula.ensea.fr) au format standard [iCalendar](http://fr.wikipedia.org/wiki/ICalendar) (abrévié en iCal). Vous pouvez utiliser ce type de fichier sur n'importe quel logiciel d'agenda et ainsi intégrer les cours de l'ENSEA quelque soit votre système d'exploitation ou application préférée, sans utiliser un nouveau programme. 
-Vous pouvez utilisez ce script pour générer vous même les fichiers de calendrier ou simplement utiliser les fichiers iCal fournis.
 
 ##Exploitation des fichiers iCal
 
@@ -43,39 +43,6 @@ TODO
 ### Avec Apple Calendar
 
 TODO
-
-
-
-
-##Utilisation du script (optionel)
-Si vous voulez générer *vous même* les fichiers iCal ; il vous faut utiliser le script nommé caligula.py
-
-
-### Dépendances
-Il faut d'abord installer python (natif sous les systèmes Unix comme MacOSX et GNU/Linux).
-
-Les deux librairies python ci-dessous ne sont pas dans le package par défault. 
-* Requests 
-* iCalendar
-
-Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplancer pip pareasy_install ci dessous) :
-
-* installer pip : `sudo apt-get install python-pip`
-
-* `pip install requests`
-
-* `pip install iCalendar`
-
-### Coment l'utiliser :
-
-```
-python caligula.py <options> -l <login pour acceder à caligula.ensea.fr>
-
-Options:
-    -s --search  partie du nom de prof, groupe de TD ou salle'
-    exemple 1 : python caligula.py -s guerquin -l <login pour acceder à caligula.ensea.fr>
-    exemple 2 : python caligula.py -s C104 -l <login pour acceder à caligula.ensea.fr>
-    exemple 3 : python caligula.py -s \'1G1 TP3\' -l <login pour acceder à caligula.ensea.fr>
 
 ## Contact 
 
