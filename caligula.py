@@ -412,228 +412,6 @@ def get_html_agenda(param_lst,debug = True):
 	return content
 
 
-def get_user_config(user_type = 'stagiaires', user = '2G1TD1TP1'):
-	"""
-	Fournit les identifiants en fonction des groupes de TPTD
-	Attention, ce code est très moche, il faut de préférence utiliser le
-	parser de la recherche
-	"""
-	annee = td = tp = 0
-	option = ""
-	if user[1].lower() == 'g'  and user_type in 'stagiaires': #1A 2A
-		annee = int(user[0])
-		groupe = int(user[2])
-		if(len(user) > 5):
-			td = int(user[5])
-			if(len(user) > 8):
-				tp = int(user[8])
-
-	elif user[0] == '3':
-		if user[1:3].lower() in 'aei':
-			option = 'aei'
-			tp = user[1:3]
-
-	elif user[0:2].lower() in 'sic':
-		td = 'sic'
-		option = 'mastere'
-		if len(user)> 3:
-			tp = int(user[5])
-
-
-	elif user[0:2].lower() in 'esa':
-		td = 'esa'
-		option = 'mastere'
-		if len(user)> 3:
-			tp = int(user[5])
-
-	elif user[0:2].lower() in 'madocs':
-		td = 'madocs'
-		option = 'mastere'
-		# tp = int(user[8])
-		if len(user)> 6:
-			tp = int(user[8])
-
-	# user = "%sG%sTD%sTP%s" %(str(annee),str(groupe),str(td),str(tp))
-	param = ['trainee',0,0,0] #defaut
-
-	if user_type in 'stagiaires':
-		param[0] = 'trainee'
-		if annee == 1 :
-			if groupe == 1:
-				param[1] = 62
-				if td == 1:
-					param[2] = 72
-					if tp == 1:
-						param[3] = 2
-					elif tp == 2:
-						param[3] = 3
-				elif td == 2:
-					param[2] = 73
-					if tp == 3:
-						param[3] = 4
-					elif tp == 4:
-						param[3] = 5
-				elif td == 3:
-					param[2] = 74
-					if tp == 5:
-						param[3] = 6
-					elif tp == 6:
-						param[3] = 7
-			elif groupe == 2:
-				param[1] = 62
-				if td == 1:
-					param[2] = 75
-					if tp == 1:
-						param[3] = 8
-					elif tp == 2:
-						param[3] = 9
-				elif td == 2:
-					param[2] = 76
-					if tp == 3:
-						param[3] = 10
-					elif tp == 4:
-						param[3] = 12
-				elif td == 3:
-					param[2] = 383
-					if tp == 5:
-						param[3] = 384
-					elif tp == 6:
-						param[3] = 142
-			elif groupe == 3:
-				param[1] = 63
-				if td == 1:
-					param[2] = 77
-					if tp == 1:
-						param[3] = 14
-					elif tp == 2:
-						param[3] = 15
-				elif td == 2:
-					param[2] = 78
-					if tp == 3:
-						param[3] = 16
-					elif tp == 4:
-						param[3] = 17
-				elif td == 3:
-					param[2] = 79
-					if tp == 5:
-						param[3] = 18
-					elif tp == 6:
-						param[3] = 441
-
-		elif annee == 2:
-			param[1] = 64
-			if groupe == 1:
-				if td == 1:
-					param[2] = 80
-					if tp == 1:
-						param[3] = 20
-					elif tp == 2:
-						param[3] = 21
-				elif td == 2:
-					param[2] = 81
-					if tp == 3:
-						param[3] = 22
-					elif tp == 4:
-						param[3] = 23
-				elif td == 3:
-					param[2] = 386
-					if tp == 5:
-						param[3] = 388
-					elif tp == 6:
-						param[3] = 267
-			elif groupe == 2:
-				if td == 1:
-					param[2] = 82
-					if tp == 1:
-						param[3] = 24
-					elif tp == 2:
-						param[3] = 25
-				elif td == 2:
-					param[2] = 83
-					if tp == 3:
-						param[3] = 26
-					elif tp == 4:
-						param[3] = 27
-				elif td == 3:
-					param[2] = 496
-					if tp == 5:
-						param[3] = 497
-					elif tp == 6:
-						param[3] = 498
-			elif groupe == 3:
-				if td == 1:
-					param[2] = 85
-					if tp == 1:
-						param[3] = 29
-					elif tp == 2:
-						param[3] = 30
-				elif td == 2:
-					param[2] = 86
-					if tp == 3:
-						param[3] = 31
-					elif tp == 4:
-						param[3] = 32
-				elif td == 3:
-					param[2] = 389
-					if tp == 5:
-						param[3] = 391
-					elif tp == 6:
-						param[3] = 398
-		elif option in 'masteres':
-			param[1] = 298
-			if td == 'sic':
-				param[2] = 507
-				if tp == 1 : param[3] = 508
-				elif tp == 2 : param[3] = 509
-				elif tp == 3 : param[3] = 559
-			elif td == 'esa':
-				param[2] = 431
-				if tp == 1 : param[3] = 433
-				elif tp == 2 : param[3] = 262
-				elif tp == 3 : param[3] = 422
-			elif td == 'madocs':
-				param[2] = 247
-				if tp == 1 : param[3] = 750
-				elif tp == 2 : param[3] = 748
-				elif tp == 3 : param[3] = 749
-
-
-		# elif annee == '3D' :
-		# 	param[1] = 62
-		# elif annee == '3A' :
-		# 	param[1] = 62
-		# else :
-		# 	print 'Cette combinaison est invalide'
-
-	if user.lower() not in '1G1TD1TP1'.lower() and (param[3] == 2) : #param[1] == 60 or param[2] == 80 or param
-		sys.stderr.write("Cette option est inconnue : %s,%s,%s" %(user_type,user,param))
-		sys.exit(2)
-
-	return user,param
-
-########
-## A supprimer
-########
-
-def fetch_all_ical(path_destination = 'ics/',debug = False):
-	"""
-	Récupère les agendas de tous les groupes d'élèves
-	"""
-
-	# 1A et 2A
-	for annee in range(1,3):
-		for groupe in range(1,4) :
-			i = -2
-			for td in range(1,4) :
-				i+=2
-				for tp in range(1,3):
-					fetch_ical(user= "%sG%sTD%sTP%s" %(annee,groupe,td,i+tp),path_destination=path_destination,debug = debug)
-
-	# Mastere
-	for master in """esa sic madocs""".split() :
-		for tp in range (1,4):
-			fetch_ical(user= "%sTP%s" %(master,tp),path_destination=path_destination)
-
 
 def fetch_ical(param, user, path_destination = '',debug=False):
 	"""
@@ -730,6 +508,8 @@ def worker(q,name):
 def search_from_file(filename):
 	"""
 	Implémente la recherche à partir d'un fichier afin de télécharger un grand nombre d'agendas d'un coup
+
+	Le multithreading entrenne des erreurs....
 	"""
 	import Queue
 	import threading
@@ -748,40 +528,33 @@ def search_from_file(filename):
 def usage():
 
 	print 'Usage : '
-	print 'caligula.py <options> -l <login pour acceder à caligula.ensea.fr>'
+	print 'python caligula.py <options> -l <login pour acceder à caligula.ensea.fr>'
 	print ''
 	print 'Options:'
 	print '-s --search 	partie du nom de prof, groupe de TD ou salle'
-	print 'exemple 1 : caligula.py -s guerquin -l <login pour acceder à caligula.ensea.fr>'
-	print 'exemple 2 : caligula.py -s C104 -l <login pour acceder à caligula.ensea.fr>'
-	print 'exemple 3 : caligula.py -s \'1G1 TP3\' -l <login pour acceder à caligula.ensea.fr>'
+	print 'exemple 1 : python caligula.py -s guerquin -l <login pour acceder à caligula.ensea.fr>'
+	print 'exemple 2 : python caligula.py -s C104 -l <login pour acceder à caligula.ensea.fr>'
+	print 'exemple 3 : python caligula.py -s \'1G1 TP3\' -l <login pour acceder à caligula.ensea.fr>'
 	print ''
-	print '-g --groupe 	groupe complet avec la syntaxe GxTDxTPx'
-	print '			all extraira tous les groupes'
-	print 'exemple : caligula.py -g 2G1TD1TP1 -l <login pour acceder à caligula.ensea.fr>'
-	print 'exemple : caligula.py -g all -l <login pour acceder à caligula.ensea.fr>'
 	print ''
 
 
 
 def main(argv):
 	global login
-	groupe = ''
 	search = ''
 	file = ''
 	debug = False
 	if len(argv) < 1 :
 		usage()
 	try:
-		opts, args = getopt.getopt(argv,"hg:d:s:l:f:",["groupe","help","debug","search","login","file"])
+		opts, args = getopt.getopt(argv,"h:d:s:l:f:",["help","debug","search","login","file"])
 	except getopt.GetoptError,err:
 		print str(err)
 		usage()
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt in ('-h','--help'): usage()
-		elif opt in ("-g", "--groupe"): groupe = arg
-		elif opt in ("-d", "--debug"): debug = True
 		elif opt in ("-s", "--search"): search = arg
 		elif opt in ("-l", "--login"): login = arg
 		elif opt in ("-f", "--file"): file = arg
@@ -799,12 +572,6 @@ def main(argv):
 	if (login is ""):
 		usage()
 		sys.exit(2)
-	if not(groupe is ""):
-		if groupe == 'all' :
-			fetch_all_ical(debug = debug)
-		else :
-			user,param = get_user_config(user=groupe)
-			fetch_ical(param=param,user=user,debug = debug)
 	if not(search is ""):
 		user,param = search_item(search)
 		# print "user %s, param : %s" %(user,param)

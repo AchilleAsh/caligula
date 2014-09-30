@@ -7,7 +7,7 @@ Les fichiers [iCal](http://en.wikipedia.org/wiki/ICalendar) (extension .ics) cor
 * Télécharger le fichier .ics sur votre ordinateur et l'importer dans votre logiciel d'agenda
 * Synchroniser votre agenda avec l'url complete du fichier .ics
 
-Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur http://showok.info/caligula/ics. Les noms des fichiers correspondent aux nom complet du TP : si vous êtes dans le 1G3TD2TP3 le fichier d'emploi du temps sera *1G3TD2TP3.ics* et sera téléchargeable (et synchronisable) sur http://showok.info/caligula/ics/1G3TD2TP3.ics
+Vous pouvez générer les fichiers iCal avec le script ou simplement récupérer ceux que j'ai déja généré récupérer sur http://caligula.showok.info/ics . 
 
 Une mise à jour tous les jours est faite sur ces fichiers à partir de caligula.ensea.fr .
 
@@ -67,19 +67,13 @@ Pour installer les dépendances, avec pip ou easy_install (dans ce cas remplance
 ### Coment l'utiliser :
 
 ```
-caligula.py <options> -l <login de caligula.ensea.fr>
+python caligula.py <options> -l <login pour acceder à caligula.ensea.fr>
 
 Options:
--s --search 	partie du nom de prof, groupe de TD ou salle
-exemple 1 : python caligula.py -s guerquin -l login
-exemple 2 : python caligula.py -s C104 -l login
-exemple 3 : python caligula.py -s '1G1 TP3' -l login
-
--g --groupe 	groupe complet avec la syntaxe GxTDxTPx
-			all extraira tous les groupes
-exemple : python caligula.py -g 2G1TD1TP1 -l login
-exemple : python caligula.py -g all -l login
-```
+    -s --search  partie du nom de prof, groupe de TD ou salle'
+    exemple 1 : python caligula.py -s guerquin -l <login pour acceder à caligula.ensea.fr>
+    exemple 2 : python caligula.py -s C104 -l <login pour acceder à caligula.ensea.fr>
+    exemple 3 : python caligula.py -s \'1G1 TP3\' -l <login pour acceder à caligula.ensea.fr>
 
 ## Contact 
 
