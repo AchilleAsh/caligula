@@ -13,6 +13,17 @@ Vous pouvez générer vous même les fichiers iCal avec le script ou simplement 
 
 Une mise à jour tous les jours est faite sur ces fichiers à partir de caligula.ensea.fr .
 
+### Avec Google Calendar
+
+* Importer le fichier (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
+
+* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps ; eexemple :  http://caligula.showok.info/ics/2G1_TP4.ics
+
+### Avec Sunbird (intégré dans Thunderbird)
+
+* Importer (ne sera pas actualisé) : Evenements et tâches > Importer > votre fichier .ics 
+* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps ; exemple : http://caligula.showok.info/ics/2G1_TP4.ics
+
 ### Sur android
 
 Vous pouvez visualiser votre emploi du temps avec l'application native d'agenda, mais il faut d'abord pouvoir lui faire lire le fichier iCal.
@@ -27,22 +38,9 @@ L'application d'agenda ne gère pas l'import de fichiers iCal ou de synchronisat
 
 ### Sur iOS
 
-TODO
+Avec Google calendar, c'est comme sur android.
 
-### Avec Sunbird (intégré dans Thunderbird)
 
-* Importer (ne sera pas actualisé) : Evenements et tâches > Importer > votre fichier .ics 
-* Synchroniser : Agenda > Nouvel agenda > Sur le réseau > format iCalendar > url correspondant à votre emploi du temps ; exemple : http://caligula.showok.info/ics/2G1_TP4.ics
-
-### Avec Google Calendar
-
-* Importer le fichier (ne sera pas actualisé) :  https://www.google.com/calendar/render > Mes agendas > parametres > importer l'agenda > votre fichier .ics 
-
-* Synchroniser : https://www.google.com/calendar/render > Autres agenda > ajouter par url > url correspondant à votre emploi du temps ; eexemple :  http://caligula.showok.info/ics/2G1_TP4.ics
-
-### Avec Apple Calendar
-
-TODO
 
 ## Contact 
 
