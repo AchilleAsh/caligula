@@ -278,7 +278,7 @@ def make_calendar(parsed,pourProf=False):
 		room = i[7][:5]
 
 		name = unicodedata.normalize('NFKD', i[4]).encode('ascii','ignore')
-		name = re.sub(u'ŕ',u"à",name)
+		name = re.sub(u'ŕ',u"a",name)
 
 		typeevent = re.sub(u'ŕ',u"à",i[3])
 		# typeevent =  unicodedata.normalize('NFKD', i[3]).encode('Utf-8','ignore')
