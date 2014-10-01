@@ -446,7 +446,7 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 		print 'Debug mode'
 
 		with open(path_destination+user+'.json','w') as f:
-			f.write(str(ical_to_json(ical)))
+			f.write(ical_to_json(ical))
 
 		with open(path_destination+user+'.html','w') as f:
 			f.write(html.encode('ISO-8859-2'))
@@ -461,7 +461,7 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 		user = '_'.join(usr_lst)
 
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
-		f.write(ical_str)
+		f.write(ical_str.encode('ISO-8859-2'))
 	print user,param,size
 
 
@@ -470,7 +470,7 @@ def search_item(name):
 	Effectue la recherche d'un élément de la base (groupe, prof, salle) par l'intermédiaire de l'outil de recherche du site
 	"""
 	global login
-	print "Recherche d'un élément de la base dont le nom contient \""+name+"\""
+	print "Recherche d'un élément de la base dont le nom contient \""+name.encode("ISO-8859-2")+"\""
 	param_lst = ['',0,0,0]
 	URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=1&login=%s&password=%s' % (login,login)
 
@@ -492,7 +492,7 @@ def search_item(name):
 	parser.feed(s.content.decode("ISO-8859-2","ignore"))
 	parser.close()
 	if len(parser.itemsID)==0: # si aucun résultat n'est trouvé
-		print "%s ne correspond à aucune donnée de la base" % name
+		print "%s ne correspond à aucune donnée de la base" % name.encode("ISO-8859-2")
 		sys.exit(2)
 	elif len(parser.itemsID)==1: # dans le cas optimal où un seul résultat est renvoyé
 		user = parser.itemsNames[0]
