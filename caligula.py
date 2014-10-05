@@ -461,7 +461,7 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 		user = '_'.join(usr_lst)
 
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
-		f.write(ical_str.encode('ISO-8859-2'))
+		f.write(ical_str)
 	print user,param,size
 
 
