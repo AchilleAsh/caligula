@@ -203,16 +203,27 @@ def dateICal(date):
 	"""format de date pour iCal"""
 	return date.strftime("%Y%m%dT%H%M%S")
 
-def make_calendar(parsed,pourProf=False):
+def make_calendar(parsed,pourProf=False,querry_name=None):
 	"""
 	création du calendrier a partir du parseur
 	"""
+
+
+
+
 	# Création de l'agenda
 	cal = Calendar()
 
 	# Etablissement du nom du Timezone
-	cal.add('x-wr-calname', u"caligula.ensea.fr parser by showok")
-	cal.add('x-wr-caldesc', u"send problems to <contact at showok.info>")
+	calname = querry_name or u"ENSEA"
+	caldesc = u"""
+	Parseur de calendrier de %s à partir de caligula.showok?info réalisé par showok.
+	Aucune garantie sur la fiabilité des informations n'est donnée.
+	Vous pouvez envoyer des suggestions, rapport de bug, insulte ou remerciments à <contact at showok.info>
+	Sources disponible sur https://github.com/show0k/caligula""" %(calname)
+
+	cal.add('x-wr-calname', calname)
+	cal.add('x-wr-caldesc', caldesc)
 	cal.add('x-wr-relcalid', u"12345")
 	cal.add('x-wr-timezone', u"Europe/Paris")
 
@@ -239,17 +250,19 @@ def make_calendar(parsed,pourProf=False):
 	cal.add_component(tzc)
 
 	for i in parsed:
+
 		event = Event()
 
 		if len(i) < 7:
 			continue
 		start = datetime.strptime("%s %s" % (i[0], i[1]), "%d/%m/%Y %H:%M")
 
-		if start.hour == 10:
+		# Correction des horaires pour correspondre à l'ENSEA
+		if start.hour == 10 and start.minute == 0:
 			start = start + timedelta(minutes = 10)
-		elif start.hour == 13:
+		elif start.hour == 13 and start.minute == 0:
 			start = start + timedelta(minutes = 15)
-		elif start.hour == 15:
+		elif start.hour == 15 and start.minute == 0:
 			start = start + timedelta(minutes = 25)
 
 		if re.match("^\d{1,2}h$", i[2]):
@@ -434,9 +447,9 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 	parser.feed(html)
 	parser.close()
 	if param[0] == 'instructor':
-		ical =  make_calendar(parser.result,pourProf=True)
+		ical =  make_calendar(parser.result,pourProf=True,querry_name=user + "ENSEA")
 	else:
-		ical =  make_calendar(parser.result,pourProf=False)
+		ical =  make_calendar(parser.result,pourProf=False,querry_name=user)
 
 	ical_str = str(ical.to_ical())
 	if ical_str[0] == " ":
