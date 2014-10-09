@@ -25,6 +25,8 @@ import getopt
 import requests
 from icalendar import Calendar, Event, Timezone, TimezoneStandard, TimezoneDaylight
 import pytz
+import Queue
+import threading
 
 login = ""
 
@@ -474,7 +476,7 @@ def fetch_ical(param, user, path_destination = '',debug=False):
 		user = '_'.join(usr_lst)
 
 	with open(path_destination+re.sub('[^\w]','_',user)+'.ics','w') as f:
-		f.write(ical_str)
+		f.write(ical.to_ical())
 	print user,param,size
 
 
@@ -526,8 +528,17 @@ def fetch_from_search(name):
 	user,param = search_item(name)
 	fetch_ical(param=param,user=user,debug = False)
 
-def worker(q,name):
-	q.put(fetch_from_search(name))
+
+def worker(queue):
+		queue_full = True
+		while queue_full:
+			try:
+				#get your data off the queue, and do some work
+				name= queue.get(False)
+				fetch_from_search(name)
+
+			except:
+				queue_full = False
 
 
 def search_from_file(filename):
@@ -535,19 +546,36 @@ def search_from_file(filename):
 	Implémente la recherche à partir d'un fichier afin de télécharger un grand nombre d'agendas d'un coup
 
 	Le multithreading entrenne des erreurs....
+
+	http://stackoverflow.com/questions/2846653/python-multithreading-for-dummies
 	"""
-	import Queue
-	import threading
+
+	# q = Queue.Queue()
+	# with open(filename, "r") as f:
+	# 	for line in f:
+	# 		if line is not "\n" :
+	# 			fetch_from_search(line[:-1])
+	# 			# t = threading.Thread(target=worker, args = (q,line[:-1]))
+	# 			# t.daemon = True
+	# 			# t.start()
+	# 	# s = q.get()
+	# 	# print s
+
+
+	#load up a queue with your data, this will handle locking
 	q = Queue.Queue()
 	with open(filename, "r") as f:
 		for line in f:
 			if line is not "\n" :
-				fetch_from_search(line[:-1])
-				# t = threading.Thread(target=worker, args = (q,line[:-1]))
-				# t.daemon = True
-				# t.start()
-		# s = q.get()
-		# print s
+				q.put(line[:-1])
+
+	#define a worker function
+
+	#create as many threads as you want
+	thread_count = 15
+	for i in range(thread_count):
+		t = threading.Thread(target=worker, args = (q,))
+		t.start()
 
 
 def usage():
