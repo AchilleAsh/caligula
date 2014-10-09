@@ -219,9 +219,9 @@ def make_calendar(parsed,pourProf=False,querry_name=None):
 	# Etablissement du nom du Timezone
 	calname = querry_name or u"ENSEA"
 	caldesc = u"""
-	Parseur de calendrier de %s à partir de caligula.showok?info réalisé par showok.
-	Aucune garantie sur la fiabilité des informations n'est donnée.
-	Vous pouvez envoyer des suggestions, rapport de bug, insulte ou remerciments à <contact at showok.info>
+	Parseur de calendrier de %s a partir de caligula.showok.info realise par showok. \n
+	AUCUNE GARANTIE DE LA FIABILITE DES INFORMATIONS N'EST DONNEE.\n
+	Vous pouvez envoyer des suggestions, rapport de bug, insultes ou remerciments à <contact at showok.info>\n
 	Sources disponible sur https://github.com/show0k/caligula""" %(calname)
 
 	cal.add('x-wr-calname', calname)
