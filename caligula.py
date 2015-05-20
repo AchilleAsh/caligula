@@ -398,7 +398,7 @@ def get_html_agenda(param_lst, debug=True):
     tree = "http://caligula.ensea.fr/ade/standard/gui/tree.jsp"
     s = requests.Session()
     s.get(URL1)
-    nbw = 38
+    nbw = 48
 
     if param_lst[0] not in '':
         category = "category=%s" % param_lst[0]
