@@ -29,7 +29,7 @@ import Queue
 import threading
 
 login = ""
-
+projectId = 2
 
 class branchParser(HTMLParser):
     """
@@ -138,8 +138,8 @@ class infoParser(HTMLParser):
         self.skipping = 0
         self.current_row = []
         self.current_data = []
-        self.URL0 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=1&login=%s&password=%s' % (
-        login, login)
+        self.URL0 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=%s&login=%s&password=%s' % (
+        projectId, login, login)
         self.s = requests.Session()
         self.html = self.s.get(self.URL0)
         self.parser = eventsParser()
@@ -394,7 +394,8 @@ def ical_to_json(ics):
 
 def get_html_agenda(param_lst, debug=True):
     global login
-    URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=1&login=%s&password=%s' % (login, login)
+    URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=%s&login=%s&password=%s'\
+           % (projectId, login, login)
     tree = "http://caligula.ensea.fr/ade/standard/gui/tree.jsp"
     s = requests.Session()
     s.get(URL1)
@@ -502,11 +503,13 @@ def search_item(name):
     global login
     print "Recherche d'un élément de la base dont le nom contient \"" + name.encode("ISO-8859-2") + "\""
     param_lst = ['', 0, 0, 0]
-    URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=1&login=%s&password=%s' % (login, login)
+    URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=%s&login=%s&password=%s'\
+           % (projectId, login, login)
 
     s = requests.Session()
     s.get(URL1)
-    tree = 'http://caligula.ensea.fr/ade/standard/gui/tree.jsp?projectId=1&login=%s&password=%s' % (login, login)
+    tree = 'http://caligula.ensea.fr/ade/standard/gui/tree.jsp?projectId=%s&login=%s&password=%s'\
+           % (projectId, login, login)
     search_form = {'search': name}
     s = requests.post(tree, data=search_form)
 
@@ -609,6 +612,7 @@ def usage():
 
 def main(argv):
     global login
+    global projectId
     search = ''
     file = ''
     debug = False
