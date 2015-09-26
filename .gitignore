@@ -2,6 +2,7 @@
 *.html
 *.json
 .idea/
+web/
 # OS generated files #
 ######################
 .DS_Store
@@ -11,3 +12,5 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+extracted.txt

@@ -47,9 +47,11 @@ class branchParser(HTMLParser):
         HTMLParser.__init__(self)
 
     def handle_starttag(self, tag, attrs):
+
         if tag == "span" and len(attrs) > 0 and attrs[0][1] == "treeitem":
             self.treeitem = True
         if tag == "a" and self.treeitem == True:
+
             self.current_data = []
             self.current_data = int(re.sub("[\D]", "", attrs[0][1]))
             self.itemsID.append(self.current_data)
@@ -230,10 +232,10 @@ def make_calendar(parsed, pourProf=False, querry_name=None):
     # Etablissement du nom du Timezone
     calname = querry_name or u"ENSEA"
     caldesc = u"""
-	Parseur de calendrier de %s a partir de caligula.showok.info realise par showok. \n
+	Parseur de calendrier de %s a partir de webteam.ensea.fr realise par Webtim. \n
 	AUCUNE GARANTIE DE LA FIABILITE DES INFORMATIONS N'EST DONNEE.\n
-	Vous pouvez envoyer des suggestions, rapport de bug, insultes ou remerciments à <contact at showok.info>\n
-	Sources disponible sur https://github.com/show0k/caligula""" % (calname)
+	Vous pouvez envoyer des suggestions, rapport de bug, insultes ou remerciments à <webteam at ensea.fr>\n
+	""" % (calname)
 
     cal.add('x-wr-calname', calname)
     cal.add('x-wr-caldesc', caldesc)
@@ -452,7 +454,7 @@ def get_html_agenda(param_lst, debug=True):
     return content
 
 
-def fetch_ical(param, user, path_destination='', debug=False):
+def fetch_ical(param, user, path_destination='web/ics/', debug=False):
     """
     Récupère l'agenda lié à un élément de la base (ne convient pas pour
     les groupes de TD qui sont des branches, pas des items)
@@ -609,6 +611,129 @@ def usage():
     print ''
     print ''
 
+# Quick and dirty extraction of all nodes name
+def extract():
+    print 'Extracting list'
+    global login
+    login = "ensea"
+    URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=%s&login=%s&password=%s'\
+           % (projectId, login, login)
+    tree = "http://caligula.ensea.fr/ade/standard/gui/tree.jsp"
+    s = requests.Session()
+    s.get(URL1)
+    param_lst = ["trainee", 'instructor']
+
+    # Students
+    category = "category=%s" % param_lst[0]
+    url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
+    r = s.get(url)
+    bra_parser = branchParser()
+    nodes = []
+    cat_parser = categoryParser()
+    cat_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+    cat_parser.close()
+    # Initials cat
+    categories = list(cat_parser.branches)
+    categories_name = list(cat_parser.branchesNames)
+    print categories_name
+    cat_parser.branchesNames = []
+    cat_parser.branches = []
+    for i in range(0, len(categories)):
+        print "Expanding " + categories_name[i]
+        branch = "branchId=%i" % categories[i]
+        url = "%s?%s&reset=true&forceLoad=false&reload=false" % (tree, branch)
+        r = s.get(url)
+        cat_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+        cat_parser.close()
+        # print cat_parser.branchesNames
+        # cat for the given cat
+        sub_cat = []
+        sub_cat_name = []
+        # We keep only sub cat
+        for cat in cat_parser.branches:
+            if cat not in categories:
+                sub_cat.append(cat)
+                # We add the cat to the global cat to avoid to loop on it again
+                categories.append(cat)
+        for cat in cat_parser.branchesNames:
+            if cat not in categories_name:
+                print "Add " + cat
+                sub_cat_name.append(cat)
+                categories_name.append(cat)
+        print "***"
+        for k in range(0, len(sub_cat)):
+            # print i
+            print "Sub Expanding " + sub_cat_name[k]
+            branch = "branchId=%i" % sub_cat[k]
+            url = "%s?%s&reset=true&forceLoad=false&reload=false" % (tree, branch)
+            r = s.get(url)
+            cat_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+            cat_parser.close()
+            bra_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+            for node in bra_parser.itemsNames:
+                if node not in nodes:
+                    nodes.append(node)
+            if i != len(categories) - 1:
+                bra_parser.itemsNames = []
+                cat_parser.branchesNames = []
+                cat_parser.branches = []
+        if i != len(categories) - 1:
+            print "true"
+            cat_parser.branchesNames = []
+            cat_parser.branches = []
+
+    # Teachers
+    print "Teachers"
+    cat_parser.branches = []
+    cat_parser.branches_name = []
+    category = "category=%s" % param_lst[1]
+    url = "%s?%s&expand=false&forceLoad=false&reload=false" % (tree, category)
+    r = s.get(url)
+    cat_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+    cat_parser.close()
+    # Initials cat
+    teacher_cat = []
+    teacher_cat_name = []
+    for cat in cat_parser.branches:
+        if cat not in categories:
+            teacher_cat.append(cat)
+    for cat in cat_parser.branchesNames:
+        if cat not in categories_name:
+            teacher_cat_name.append(cat)
+
+    print teacher_cat_name
+    cat_parser.branchesNames = []
+    cat_parser.branches = []
+    for i in range(0, len(teacher_cat)):
+        print i
+        print "Expanding " + teacher_cat_name[i]
+        branch = "branchId=%i" % teacher_cat[i]
+        url = "%s?%s&reset=true&forceLoad=false&reload=false" % (tree, branch)
+        r = s.get(url)
+        bra_parser.feed(r.content.decode("ISO-8859-1", "ignore"))
+        for node in bra_parser.itemsNames:
+            if node not in nodes:
+                nodes.append(node)
+
+        if i != len(teacher_cat) - 1:
+            bra_parser.itemsNames = []
+            cat_parser.branchesNames = []
+            cat_parser.branches = []
+        if i != len(teacher_cat) - 1:
+            print "true"
+            cat_parser.branchesNames = []
+            cat_parser.branches = []
+    # print cat_parser.branchesNames
+
+
+    ################
+    print "==========="
+    print "Nodes:"
+    print nodes
+    print "==========="
+    f = open('extracted.txt', 'w')
+    for node in nodes:
+        f.write(node.encode('utf-8') + "\n")
 
 def main(argv):
     global login
@@ -619,7 +744,7 @@ def main(argv):
     if len(argv) < 1:
         usage()
     try:
-        opts, args = getopt.getopt(argv, "h:d:s:l:f:", ["help", "debug", "search", "login", "file"])
+        opts, args = getopt.getopt(argv, "h:d:s:l:f:e:", ["help", "debug", "search", "login", "file", "extract"])
     except getopt.GetoptError, err:
         print str(err)
         usage()
@@ -627,6 +752,8 @@ def main(argv):
     for opt, arg in opts:
         if opt in ('-h', '--help'):
             usage()
+        elif opt in ("-e", "--extract"):
+            extract()
         elif opt in ("-s", "--search"):
             search = arg
         elif opt in ("-l", "--login"):
