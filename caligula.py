@@ -27,7 +27,7 @@ from icalendar import Calendar, Event, Timezone, TimezoneStandard, TimezoneDayli
 import pytz
 import Queue
 import threading
-
+from multiprocessing.dummy import Pool as ThreadPool
 login = ""
 projectId = 2
 
@@ -449,7 +449,7 @@ def get_html_agenda(param_lst, debug=True):
     url = "http://caligula.ensea.fr/ade/custom/modules/plannings/info.jsp"
     result = s.get(url)
 
-    content = result.content.decode("ISO-8859-2", "ignore")
+    content = result.content.decode("ISO-8859-1", "ignore")
 
     return content
 
@@ -482,7 +482,7 @@ def fetch_ical(param, user, path_destination='web/ics/', debug=False):
             f.write(ical_to_json(ical))
 
         with open(path_destination + user + '.html', 'w') as f:
-            f.write(html.encode('ISO-8859-2'))
+            f.write(html.encode('ISO-8859-1'))
         # f.write(html.decode("ISO-8859-2","ignore"))
 
     size = str(len(ical_str)) + " octets"
@@ -503,7 +503,8 @@ def search_item(name):
     Effectue la recherche d'un élément de la base (groupe, prof, salle) par l'intermédiaire de l'outil de recherche du site
     """
     global login
-    print "Recherche d'un élément de la base dont le nom contient \"" + name.encode("ISO-8859-2") + "\""
+    name = name.encode('ISO-8859-1')
+    print "Recherche d'un Element de la base dont le nom contient \"" + name + "\""
     param_lst = ['', 0, 0, 0]
     URL1 = 'http://caligula.ensea.fr/ade/standard/gui/interface.jsp?projectId=%s&login=%s&password=%s'\
            % (projectId, login, login)
@@ -524,19 +525,26 @@ def search_item(name):
     parser = branchParser()
     parser.itemsID = []
     parser.itemsNames = []
-    parser.feed(s.content.decode("ISO-8859-2", "ignore"))
+    parser.feed(s.content.decode("ISO-8859-1", "ignore"))
     parser.close()
     if len(parser.itemsID) == 0:  # si aucun résultat n'est trouvé
-        print "%s ne correspond à aucune donnée de la base" % name.encode("ISO-8859-2")
+        print "%s ne correspond à aucune donnée de la base" % name.encode("ISO-8859-1")
         sys.exit(2)
     elif len(parser.itemsID) == 1:  # dans le cas optimal où un seul résultat est renvoyé
         user = parser.itemsNames[0]
         param_lst[0] = parser.itemsCategory[0]
-        param_lst[3] = parser.itemsID[0];
+        param_lst[3] = parser.itemsID[0]
     else:  # si plusieurs résultats sont renvoyés
         for i in range(1, len(parser.itemsID)):
             print "%d:\t%s\t%s" % (i, parser.itemsCategory[i - 1], parser.itemsNames[i - 1])
-            param_lst[3] = parser.itemsID[i - 1];
+            param_lst[3] = parser.itemsID[i - 1]
+            if parser.itemsNames[i - 1] == name.decode('ISO-8859-1'):
+                param_lst[0] = parser.itemsCategory[i - 1]
+                param_lst[3] = parser.itemsID[i - 1]
+                user = parser.itemsNames[i - 1]
+                print "%s %s with ID %s" % (param_lst[0], user, param_lst[3])
+                return user, param_lst
+
         input_var = int(input("Please select an item by entering the corresponding number: "))
         user = parser.itemsNames[input_var - 1]
         param_lst[0] = parser.itemsCategory[input_var - 1]
@@ -546,6 +554,7 @@ def search_item(name):
 
 
 def fetch_from_search(name):
+    name = name.decode('utf-8')
     user, param = search_item(name)
     fetch_ical(param=param, user=user, debug=False)
 
@@ -571,32 +580,39 @@ def search_from_file(filename):
     http://stackoverflow.com/questions/2846653/python-multithreading-for-dummies
     """
 
+    #load up a queue with your data, this will handle locking
     # q = Queue.Queue()
     # with open(filename, "r") as f:
-    # for line in f:
-    # 		if line is not "\n" :
-    # 			fetch_from_search(line[:-1])
-    # 			# t = threading.Thread(target=worker, args = (q,line[:-1]))
-    # 			# t.daemon = True
-    # 			# t.start()
-    # 	# s = q.get()
-    # 	# print s
-
-
-    #load up a queue with your data, this will handle locking
-    q = Queue.Queue()
+    #     #print "Lines :%i" % len(f.readlines())
+    #     for line in f:
+    #         print line
+    #         if line is not "\n":
+    #             q.put(line[:-1])
+    #
+    # #define a worker function
+    #
+    # #create as many threads as you want
+    # thread_count = 15
+    # for i in range(thread_count):
+    #     t = threading.Thread(target=worker, args=(q,))
+    #     t.start()
+    lines = []
+    print "Importing from file"
     with open(filename, "r") as f:
         for line in f:
             if line is not "\n":
-                q.put(line[:-1])
+                # line = line
+                # print line
+                lines.append(line[:-1])
+    print lines
 
-    #define a worker function
 
-    #create as many threads as you want
-    thread_count = 15
-    for i in range(thread_count):
-        t = threading.Thread(target=worker, args=(q,))
-        t.start()
+    # exit()
+    pool = ThreadPool(4)
+    results = pool.map(fetch_from_search, lines)
+
+    pool.close()
+    pool.join()
 
 
 def usage():
